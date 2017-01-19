@@ -2,12 +2,11 @@
 #include "Entities\Player.h"
 
 
-SpikeTile::SpikeTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID)
-	: InteractiveTile(sharedContext, name, pos, ID, TileType::Spike)
+SpikeTile::SpikeTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
+	: InteractiveTile(sharedContext, name, pos, ID, type)
 {
 
 }
-
 
 SpikeTile::~SpikeTile()
 {

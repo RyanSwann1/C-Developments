@@ -5,23 +5,35 @@
 #include <sstream>
 #include <assert.h>
 
-BouncyTile::BouncyTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID)
-	: InteractiveTile(sharedContext, name, pos, ID, TileType::Bouncy)
+BouncyTile::BouncyTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
+	: InteractiveTile(sharedContext, name, pos, ID, type)
 {	
 }
 
 void BouncyTile::update(const float deltaTime)
 {
-	Animation* const animation = InteractiveTile::getAnimationManager().getCurrentAnimation();
-	assert(animation);
-	if (animation->isActive())
+	Animation& animation = InteractiveTile::getAnimationManager().getCurrentAnimation();
+	Timer& activateTimer = InteractiveTile::getActivationTimer();
+
+	if (activateTimer.isActive())
 	{
-		animation->update(deltaTime);
-		if (animation->isFinished())
+		activateTimer.update(deltaTime);
+
+		if (animation.isActive())
 		{
-			animation->stop();
+			animation.update(deltaTime);
+			if (animation.isFinished())
+			{
+				animation.stop();
+			}
+		}
+
+		if (activateTimer.isExpired())
+		{
+			activateTimer.deactivate();
 		}
 	}
+
 	//if (InteractiveTile::isActive())
 	//{
 	//	if (animation && animation->isActive())
@@ -38,7 +50,10 @@ void BouncyTile::update(const float deltaTime)
 
 void BouncyTile::activate(Player& player)
 {
-	Animation* const animation = InteractiveTile::getAnimationManager().getCurrentAnimation();
-	assert(animation);
-	animation->play();
+	if (!InteractiveTile::getActivationTimer().isActive())
+	{
+		Animation& animation = InteractiveTile::getAnimationManager().getCurrentAnimation();
+		animation.play();
+		InteractiveTile::getActivationTimer().activate();
+	}
 }

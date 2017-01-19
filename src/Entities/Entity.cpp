@@ -20,15 +20,14 @@ Entity::Entity(SharedContext & sharedContext, const EntityType type, const sf::V
 	m_collidingOnX(false),
 	m_collidingOnY(false),
 	m_type(type),
-	m_name(name)
+	m_name(name),
+	m_AABB(sf::Vector2f(0, 0) ,sf::Vector2f(m_sharedContext.m_worldMap.getMapDetails().m_tileSize, m_sharedContext.m_worldMap.getMapDetails().m_tileSize))
 {
 	m_maxVelocity = sf::Vector2f(60, 10000);
 	m_friction.x = 0.05f;
 	m_gravity = 0.4f;
 
-	const int tileSize = m_sharedContext.m_worldMap.getMapDetails().m_tileSize;
-	m_AABB.width = tileSize;
-	m_AABB.height = tileSize;
+	loadInEntityDetails();
 }
 
 void Entity::handleTileCollisions(const std::vector<CollisionElement*>& collisions)
@@ -102,10 +101,10 @@ void Entity::handleTileCollisions(const std::vector<CollisionElement*>& collisio
 
 void Entity::draw(sf::RenderWindow & window)
 {
-	/*sf::RectangleShape shape(sf::Vector2f(16, 16));
+	sf::RectangleShape shape(sf::Vector2f(16, 16));
 	shape.setPosition(m_position);
 	shape.setFillColor(sf::Color::Green);
-	window.draw(shape);*/
+	//awindow.draw(shape);
 	m_animationManager.draw(window);
 }
 
@@ -271,4 +270,40 @@ void Entity::updateAABB()
 {
 	m_AABB.left = m_position.x;
 	m_AABB.top = m_position.y;
+}
+
+void Entity::loadInEntityDetails()
+{
+	const Utilities& utilities = Entity::getSharedContext().m_utilities;
+	std::ifstream file(utilities.getEntityDetails(Entity::getName()));
+	assert(file.is_open());
+
+	std::string line;
+	while (std::getline(file, line))
+	{
+		std::stringstream keyStream(line);
+		std::string type;
+		keyStream >> type;
+
+		if (type == "Animations")
+		{
+			std::string animationFileName;
+			keyStream >> animationFileName;
+			Entity::getAnimationManager().loadInAnimations(animationFileName);
+		}
+		else if (type == "Speed")
+		{
+			sf::Vector2f speed;
+			keyStream >> speed.x >> speed.y;
+			Entity::setSpeed(speed);
+		}
+		else if (type == "MaxVelocity")
+		{
+			sf::Vector2f maxVel;
+			keyStream >> maxVel.x >> maxVel.y;
+			Entity::setMaxVelocity(maxVel);
+		}
+	}
+
+	file.close();
 }

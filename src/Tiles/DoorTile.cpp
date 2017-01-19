@@ -9,8 +9,8 @@
 #include <iostream>
 
 
-DoorTile::DoorTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID)
-	: InteractiveTile(sharedContext, name, pos, ID, TileType::Door),
+DoorTile::DoorTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
+	: InteractiveTile(sharedContext, name, pos, ID, type),
 	m_isOpen(false)
 {
 }

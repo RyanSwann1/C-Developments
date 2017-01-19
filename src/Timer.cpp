@@ -16,11 +16,6 @@ void Timer::update(const float deltaTime)
 	if (m_isActive)
 	{
 		m_timeElasped += deltaTime;
-
-		/*if (isExpired())
-		{
-			deactivate();
-		}*/
 	}
 }
 

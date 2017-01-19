@@ -102,14 +102,16 @@ void LevelParser::parseInteractiveTiles(const TiXmlElement & root, const LevelDe
 	const TiXmlElement& objectRoot = *findNode(root, "objectgroup", "Interactive Tile Layer");
 	for (const TiXmlElement* e = objectRoot.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
-		const std::string type(e->Attribute("name"));
+		assert(e->Attribute("name"));
+		const std::string name(e->Attribute("name"));
 		int xPos = 0, yPos = 0, ID = 0;
 		e->Attribute("x", &xPos);
 		e->Attribute("y", &yPos);
-		e->Attribute("id", &ID);
+		//e->Attribute("id", &ID);
 
 		//std::cout << type << "\n";
-		m_sharedContext.m_worldMap.getInteractiveTileLayer().addTile(m_sharedContext, sf::Vector2f(xPos, yPos), type, sf::Vector2f(levelDetails.m_mapSize.x, levelDetails.m_mapSize.y), ID);
+		m_sharedContext.m_worldMap.getInteractiveTileLayer().addTile(sf::Vector2f(xPos, yPos), name);
+		//m_sharedContext.m_worldMap.getInteractiveTileLayer().addTile(m_sharedContext, sf::Vector2f(xPos, yPos), type, sf::Vector2f(levelDetails.m_mapSize.x, levelDetails.m_mapSize.y));
 	}
 }
 

@@ -18,7 +18,7 @@ Character::Character(SharedContext& sharedContext, const EntityType type, const 
 	m_jumpVelocity(0),
 	m_jumpReady(true)
 {
-	loadInDetails();
+	loadInCharacterDetails();
 }
 
 void Character::update(const float deltaTime)
@@ -68,8 +68,8 @@ void Character::determineAnimationType()
 	}
 	case (EntityState::Hurt) :
 	{
-		const Animation* const animation = animationManager.getCurrentAnimation();
-		if (animation && animation->isFinished())
+		const Animation& animation = animationManager.getCurrentAnimation();
+		if (animation.isFinished())
 		{
 			animationManager.setAnimationType("Idling", dir);
 			break;
@@ -93,7 +93,7 @@ void Character::setState(const EntityState state)
 	}
 }
 
-void Character::loadInDetails()
+void Character::loadInCharacterDetails()
 {
 	const Utilities& utilities = Entity::getSharedContext().m_utilities;
 	std::ifstream file(utilities.getEntityDetails(Entity::getName()));
@@ -106,19 +106,7 @@ void Character::loadInDetails()
 		std::string type;
 		keyStream >> type;
 
-		if (type == "Animations")
-		{
-			std::string animationFileName;
-			keyStream >> animationFileName;
-			Entity::getAnimationManager().loadInAnimations(animationFileName);
-		}
-		else if (type == "Speed")
-		{
-			sf::Vector2f speed;
-			keyStream >> speed.x >> speed.y;
-			Entity::setSpeed(speed);
-		}
-		else if (type == "JumpTime")
+		if (type == "JumpTime")
 		{
 			keyStream >> m_jumpTime;
 			m_jumpingTimer.setExpirationTime(m_jumpTime);
@@ -127,12 +115,6 @@ void Character::loadInDetails()
 		{
 			keyStream >> m_doubleJumpTime;
 			m_doubleJumpTimer.setExpirationTime(m_doubleJumpTime);
-		}
-		else if (type == "MaxVelocity")
-		{
-			sf::Vector2f maxVel;
-			keyStream >> maxVel.x >> maxVel.y;
-			Entity::setMaxVelocity(maxVel);
 		}
 		else if (type == "HurtTime")
 		{
@@ -153,6 +135,7 @@ void Character::loadInDetails()
 			m_lives = m_maxLives;
 		}
 	}
+	file.close();
 }
 
 void Character::reduceLife()

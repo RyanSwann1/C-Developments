@@ -83,6 +83,13 @@ void AnimationManager::loadInAnimations(const std::string & fileName)
 //	return nullptr;
 //}
 
+Animation & AnimationManager::getCurrentAnimation() const
+{
+	assert(m_currentAnimation);
+	return *m_currentAnimation;
+	// TODO: insert return statement here
+}
+
 void AnimationManager::setAnimationType(const std::string& name, const Direction dir)
 {
 	if (m_currentAnimation && m_currentAnimation->getName() == name)
@@ -157,8 +164,6 @@ void AnimationManager::setAnimationType(const std::string & name, const Directio
 
 void AnimationManager::setPosition(const sf::Vector2f & pos)
 {
-	if (m_currentAnimation)
-	{
-		m_currentAnimation->setSpritePosition(pos);
-	}
+	assert(m_currentAnimation);
+	m_currentAnimation->setSpritePosition(pos);
 }

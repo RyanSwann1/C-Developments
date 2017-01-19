@@ -86,6 +86,7 @@ std::vector<std::string> LevelManager::loadInMapNames(const std::string & fileNa
 
 		mapNames.push_back(location);
 	}
+	file.close();
 		
 	return mapNames;
 }

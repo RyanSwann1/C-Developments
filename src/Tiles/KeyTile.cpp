@@ -7,8 +7,8 @@
 #include <sstream>
 #include <assert.h>
 
-KeyTile::KeyTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID)
-	: InteractiveTile(sharedContext, name, pos, ID, TileType::Key),
+KeyTile::KeyTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
+	: InteractiveTile(sharedContext, name, pos, ID, type),
 	m_attachToPlayer(false)
 {
 }
@@ -19,7 +19,7 @@ void KeyTile::update(const float deltaTime)
 	{
 		const Entity* const player = InteractiveTile::getSharedContext().m_entityManager.getPlayer();
 		assert(player);
-		InteractiveTile::setPosition(player->getPosition());
+		InteractiveTile::moveToPosition(player->getPosition());
 	}
 
 	//if (InteractiveTile::isActive())

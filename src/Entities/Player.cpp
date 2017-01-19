@@ -14,7 +14,8 @@ Player::Player(SharedContext& sharedContext, const sf::Vector2f& pos, const int 
 	: Character(sharedContext, EntityType::Player, pos, ID, name),
 	m_holdingKey(false),
 	m_onClimbableObject(false),
-	m_onNextLevelTile(false)
+	m_onNextLevelTile(false),
+	m_score(0)
 {
 	EventManager& eventManager = *Entity::getSharedContext().m_eventManager;
 	eventManager.addCallBack<Player>(KeyBindingName::Move_Left, StateType::Game, &Player::reactToInput, this);
@@ -58,7 +59,6 @@ void Player::reactToInput(const EventDetails& eventDetails)
 		Character::jump();
 		break;
 	}
-
 	case (KeyBindingName::Move_Up) :
 	{
 		climb(Direction::Up);
@@ -115,10 +115,19 @@ void Player::onInteractiveTileCollision(InteractiveTile & tile)
 		tile.activate(*this);
 		break;
 	}
+	case (TileType::Coin) :
+	{
+		tile.activate(*this);
+		break;
+	}
+	case (TileType::CoinDispenser) :
+	{
+		tile.activate(*this);
+		break;
+	}
 	default:
 		break;
 	}
-
 }
 
 void Player::climb(const Direction dir)
@@ -159,9 +168,14 @@ void Player::reduceLife()
 	}
 }
 
+void Player::increaseScore(const int i)
+{
+	m_score += i;
+}
+
 void Player::respawn()
 {
-	setPosition(sf::Vector2f(0, 0));
+	Entity::setPosition(sf::Vector2f(0, 0));
 }
 
 void Player::killCharacter()

@@ -16,6 +16,7 @@ const std::vector<CollisionElement*> checkForTiles(const SharedContext& sharedCo
 void checkForEntities(const SharedContext& sharedContext, Entity& entity);
 void checkForInteractiveTiles(const SharedContext& sharedContext, Player& entity);
 void handleTileCollisions(const SharedContext& sharedContext, Entity& entity);
+bool checkForCollision(const sf::Vector2f& entityPos, const sf::Vector2f& tilePos, const int tileSize);
 
 
 //Passing by reference means that it'll only access the entity base member
@@ -84,15 +85,21 @@ void checkForInteractiveTiles(const SharedContext& sharedContext, Player& entity
 {
 	const std::vector<InteractiveTile*>& tiles = sharedContext.m_worldMap.getInteractiveTileLayer().getTiles();
 	const int tileSize = sharedContext.m_worldMap.getMapDetails().m_tileSize;
-	const sf::Vector2f& entityPos = sf::Vector2f(std::floor(entity.getPosition().x / tileSize), std::floor(entity.getPosition().y / tileSize));
+
+	//const sf::Vector2f entityPos = sf::Vector2f(std::floor(entity.getPosition().x / tileSize), std::floor(entity.getPosition().y / tileSize));
 	for (const auto &i : tiles)
 	{
-		const sf::Vector2f& tilePos = sf::Vector2f(std::floor(i->getPosition().x / tileSize), std::floor(i->getPosition().y / tileSize));
+		//const sf::Vector2f tilePos = sf::Vector2f(std::floor(i->getPosition().x / tileSize), std::floor(i->getPosition().y / tileSize));
 
-		if (entityPos == tilePos)
+		if (checkForCollision(entity.getPosition(), i->getPosition(), tileSize))
 		{
 			entity.onInteractiveTileCollision(*i); //Have the entity deal with the collision
 		}
+
+		//if (entityPos == tilePos)
+		//{
+		//	
+		//}
 	}
 }
 
@@ -110,6 +117,29 @@ void handleTileCollisions(const SharedContext& sharedContext, Entity& entity)
 		i = nullptr;
 	}
 }
+
+bool checkForCollision(const sf::Vector2f& entityPos, const sf::Vector2f& tilePos, const int tileSize)
+{
+	if (entityPos.x > (tilePos.x + tileSize))
+	{
+		return false;
+	}
+	else if ((entityPos.x + tileSize) < tilePos.x)
+	{
+		return false;
+	}
+	else if (entityPos.y > (tilePos.y + tileSize))
+	{
+		return false;
+	}
+	else if (entityPos.y + tileSize < tilePos.y)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 
 //#include "Managers\CollisionManager.h"
 //#include "Game\Map.h"

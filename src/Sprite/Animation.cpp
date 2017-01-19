@@ -71,13 +71,15 @@ void Animation::setSpritePosition(const sf::Vector2f & newPos)
 {
 	//Hacky - i think..
 	//Done so that it doesn't draw any other tile that it shouldnt on the tile sheet
-	m_position = newPos;
 	if (m_frameSize.y > 1)
 	{
-		m_position.y -= m_tileSheetManager.getTileSheet(m_tileSheetName).getDetails().m_tileSize;
+		const int tileSize = m_tileSheetManager.getTileSheet(m_tileSheetName).getDetails().m_tileSize;
+		m_sprite.setPosition(sf::Vector2f(newPos.x, newPos.y - tileSize));
 	}
-
-	m_sprite.setPosition(m_position);
+	else
+	{
+		m_sprite.setPosition(newPos);
+	}	
 }
 
 void Animation::play()
