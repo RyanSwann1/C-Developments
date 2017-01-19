@@ -8,7 +8,7 @@ class GameManager;
 class DoorTile : public InteractiveTile
 {
 public:
-	DoorTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID);
+	DoorTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
 
 	void unlockDoor(const LockTile& lock);
 	bool isOpen() const { return m_isOpen; }

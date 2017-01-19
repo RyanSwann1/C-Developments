@@ -6,7 +6,7 @@ class CoinDispenserTile :
 	public InteractiveTile
 {
 public:
-	CoinDispenserTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID);
+	CoinDispenserTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
 
 	void activate(Player& player) override;
 

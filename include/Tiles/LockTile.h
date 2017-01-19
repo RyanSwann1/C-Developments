@@ -6,7 +6,7 @@ class LockTile :
 	public InteractiveTile
 {
 public:
-	LockTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID);
+	LockTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
 	
 	void activate(Player& player) override;
 	bool isUnlocked() const { return m_unlocked; }
