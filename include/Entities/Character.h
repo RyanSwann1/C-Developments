@@ -32,7 +32,7 @@ private:
 	EntityState m_state;
 	void setState(const EntityState state);
 
-	void loadInDetails();
+	void loadInCharacterDetails();
 
 	int m_maxLives;
 	int m_lives;

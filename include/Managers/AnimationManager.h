@@ -2,11 +2,12 @@
 
 #include "Sprite\Animation.h"
 #include "SharedContext.h"
+#include "Direction.h"
 #include <SFML\Graphics.hpp>
 #include <unordered_map>
 #include <string>
 
-enum class Direction;
+
 class AnimationManager
 {
 public:
@@ -15,9 +16,9 @@ public:
 	AnimationManager(const AnimationManager&) = delete;
 	AnimationManager& operator=(const AnimationManager&) = delete;
 
-	Animation* const getCurrentAnimation() const { return m_currentAnimation; }
+	Animation& getCurrentAnimation() const;
 
-	void setAnimationType(const std::string& name, const Direction dir);
+	void setAnimationType(const std::string& name, const Direction dir = Direction::None);
 	void setAnimationType(const std::string& name, const Direction dir, const sf::Vector2f& pos);
 	void setPosition(const sf::Vector2f& pos);
 	void loadInAnimations(const std::string& fileName);

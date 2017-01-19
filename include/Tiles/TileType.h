@@ -9,5 +9,7 @@ enum class TileType
 	Ladder,
 	Lock,
 	Door,
-	Spike
+	Spike,
+	CoinDispenser,
+	Coin
 };

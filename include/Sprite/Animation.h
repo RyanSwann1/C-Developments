@@ -9,7 +9,6 @@ class TileSheet;
 class Animation
 {
 public:
-
 	Animation(TileSheetManager& tileSheetManager, const std::string& name, const std::string& tileSheetName, const int startRow, 
 		const int endRow, const int column, const float frameTime, const int repeatable, const sf::Vector2i& frameSize, const bool reversible);
 	~Animation();
@@ -18,7 +17,6 @@ public:
 	inline const bool isFinished() const { return m_isFinished; }
 	inline const bool isRepeatable() const { return m_repeatable; }
 	inline const std::string& getName() const { return m_name; }
-	inline sf::Vector2f& getPosition() { return m_position; }
 
 	void setSpritePosition(const sf::Vector2f& pos);
 
@@ -44,11 +42,9 @@ private:
 	bool m_isFinished;
 	bool m_isFlipped;
 	sf::Sprite m_sprite;
-	//TileSheet& m_tileSheet;
 	const bool m_reversible;
 	bool m_reverse; //Reverse the animation
 	bool m_active;
-	sf::Vector2f m_position;
 	
 	inline void end() { m_isFinished = true; }
 };

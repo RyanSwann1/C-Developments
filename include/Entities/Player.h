@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entities\Character.h"
+class CoinTile;
 struct EventDetails;
 class Player : public Character
 {
@@ -12,6 +13,7 @@ public:
 	bool isOnNextLevelTile() const { return m_onNextLevelTile; }
 
 	void reduceLife() override;
+	void increaseScore(const int i);
 	void update(const float deltaTime) override final;
 	void onEntityCollision(Entity& entity) override {}
 	void onInteractiveTileCollision(InteractiveTile& tile) override;
@@ -20,6 +22,7 @@ private:
 	bool m_holdingKey; //Player holding key
 	bool m_onClimbableObject; //Player on tile that allows them to climb
 	bool m_onNextLevelTile;
+	int m_score;
 
 	void reactToInput(const EventDetails& eventDetails);
 	void climb(const Direction dir);

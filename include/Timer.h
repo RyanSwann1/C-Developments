@@ -11,7 +11,7 @@ public:
 	inline void setExpirationTime(const float expirationTime) { m_expirationTime = expirationTime; }
 	inline void activate() { m_isActive = true; }
 
-	inline void resetTime() { m_timeElasped = 0; }
+	//inline void resetTime() { m_timeElasped = 0; }
 	void update(const float elaspedTime);
 	void deactivate();
 

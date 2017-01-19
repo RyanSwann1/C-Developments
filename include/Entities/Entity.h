@@ -48,6 +48,7 @@ protected:
 	inline AnimationManager& getAnimationManager() { return m_animationManager; }
 	inline void stop() { m_velocity.x = 0; }
 	inline void setPosition(const sf::Vector2f& newPos) { m_position = newPos; }
+	void setGravity(const float i) { m_gravity = i; }
 	inline const sf::Vector2f& getStartPosition() const { return m_startPosition; }
 
 private:
@@ -80,4 +81,7 @@ private:
 	//inline void setPosition(const float x, const float y) { m_position = sf::Vector2f(x, y); }
 	void applyGravity();
 	void updateAABB();
+
+	//virtual void loadInDetails();
+	void loadInEntityDetails();
 };

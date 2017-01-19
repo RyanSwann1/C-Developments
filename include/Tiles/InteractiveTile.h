@@ -14,7 +14,7 @@ public:
 	virtual ~InteractiveTile() {}
 
 	inline int getID() const { return m_ID; }
-	inline const sf::Vector2f& getPosition() const { return m_position; }
+	const sf::Vector2f& getPosition() const { return m_position; }
 	inline const std::string& getName() const { return m_name; }
 	inline TileType getType() const { return m_type; }
 
@@ -25,17 +25,30 @@ public:
 protected:
 	AnimationManager& getAnimationManager() { return m_animationManager; }
 	SharedContext& getSharedContext() { return m_sharedContext; }
+	Timer& getActivationTimer() { return m_activationTimer; }
+	Timer& getMovementTimer() { return m_movementTimer; }
 
-	void setPosition(const sf::Vector2f& newPos);
+	inline void setMovementSpeed(const float i) { m_movementSpeed = i; }
+	inline void setDirection(const Direction dir) { m_currentDirection = dir; }
+
+	void removeTile();
+	void moveInDirection(const float deltaTime);
+	void moveToPosition(const sf::Vector2f& pos) { setPosition(pos); }
 
 private:
 	AnimationManager m_animationManager;
 	SharedContext& m_sharedContext;
-	sf::Vector2f m_position;
+	Timer m_activationTimer;
+	Timer m_movementTimer;
 	const int m_ID;
-	const TileType m_type;
+	const TileType m_type; //So that player can react in certain way to tile
 	const std::string m_name;
+	Direction m_currentDirection;
+	float m_movementSpeed;
+
 	sf::RectangleShape m_shape;
-	
+	sf::Vector2f m_position;
+
 	void loadInDetails(const std::string& fileName);
+	void setPosition(const sf::Vector2f& pos);
 };
