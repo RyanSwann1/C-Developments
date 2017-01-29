@@ -5,9 +5,7 @@
 #include <vector>
 #include <SFML\Graphics.hpp>
 
-//struct SharedContext;
 class StateBase;
-class StateGame;
 class StateManager
 {
 public:
@@ -21,7 +19,7 @@ public:
 	void update(const float deltaTime);
 	void draw(sf::RenderWindow& window);
 	void removeState(const StateType stateType);
-
+	int getStateCount() { return m_states.size(); }
 private:
 	class StateFactory;
 	const StateFactory* const m_stateFactory;
@@ -35,7 +33,6 @@ private:
 	void processRemovals();
 	void processStatesToAdd();
 	void purgeStates();
-	
-	bool removedActiveState(const StateType stateType);
 	void stateToAdd(const StateType type);
+	bool removedActiveState(const StateType stateType);
 };

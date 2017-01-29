@@ -4,6 +4,7 @@
 #include "Map\TileSetDetails.h"
 #include "Sprite\TileSheet.h"
 #include "Managers\TileSheetManager.h"
+#include "Locators\TileSheetManagerLocator.h"
 #include <SFML\Graphics.hpp>
 #include <string>
 #include <iostream>
@@ -11,14 +12,14 @@
 struct TileInfo
 {
 	//Constructor
-	TileInfo(TileSheetManager& tileSheetManager, const std::string& tileSheetName, const int tileID, const sf::Vector2i& position)
-		: m_tileSheetManager(tileSheetManager),
+	TileInfo(const std::string& tileSheetName, const int tileID, const sf::Vector2i& position)
+		: m_tileSheetManager(TileSheetManagerLocator::getTileSheetManager()),
 		m_position(position),
 		m_tileID(tileID),
 		m_tileSheetName(tileSheetName)
 	{
-		m_sprite.setTexture(*tileSheetManager.getTileSheet(m_tileSheetName).getTexture());
-		m_sprite.setTextureRect(tileSheetManager.getTileSheet(m_tileSheetName).getTileLocationByID(m_tileID));
+		m_sprite.setTexture(*m_tileSheetManager.getTileSheet(m_tileSheetName).getTexture());
+		m_sprite.setTextureRect(m_tileSheetManager.getTileSheet(m_tileSheetName).getTileLocationByID(m_tileID));
 
 		const int tileSize = m_tileSheetManager.getTileSheet(m_tileSheetName).getDetails().m_tileSize;
 		m_sprite.setPosition(sf::Vector2f(position.x * tileSize, position.y * tileSize));

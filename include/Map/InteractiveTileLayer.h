@@ -1,33 +1,30 @@
 #pragma once
 
 #include "Map\Tile.h"
-#include "Tiles\InteractiveTile.h"
 #include <SFML\Graphics.hpp>
 #include <vector>
 
+enum class TileType;
+class InteractiveTile;
 struct TileToAdd
 {
 	TileToAdd(const std::string& name, const sf::Vector2f& pos)
 		: m_name(name),
 		m_position(pos)
-	{
-		
-	}
+	{}
 
 	const std::string m_name;
 	const sf::Vector2f m_position;
 };
 
-struct SharedContext;
 class InteractiveTileLayer
 {
 	friend class WorldMap;
 public:
-	InteractiveTileLayer(SharedContext& sharedContext);
+	InteractiveTileLayer();
 	~InteractiveTileLayer();
 
-	std::vector<InteractiveTile*>& getTiles() { return m_tileMap; }
-	//void addTile(const sf::Vector2f& pos, const std::string& name);
+	inline std::vector<InteractiveTile*>& getTiles() { return m_tileMap; }
 	void addTile(const sf::Vector2f& pos, const std::string& name) { m_tilesToAdd.push_back(TileToAdd(name, pos)); }
 	InteractiveTile* getTile(const TileType type) const; //Might not need
 
@@ -45,11 +42,9 @@ private:
 	std::vector<int> m_removals;
 	int m_tileCount;
 
-
 	void clearMap();
 	void processRemovals();
 	void processTilesToAdd();
 	bool removeActiveTile(const int ID);
-
 	void addTileToMap(const TileToAdd& tileToAdd);
 };

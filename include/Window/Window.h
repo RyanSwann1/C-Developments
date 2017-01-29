@@ -5,11 +5,11 @@
 #include <SFML\Window.hpp>
 #include <string>
 
-struct SharedContext;
+struct StateManager;
 class Window
 {
 public:
-	Window(SharedContext& sharedContext, const std::string& name = "SFML_WINDOW", const sf::Vector2i& size = sf::Vector2i(640, 480));
+	Window(const StateManager& stateManager, const std::string& name = "SFML_WINDOW", const sf::Vector2i& size = sf::Vector2i(640, 480));
 
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;

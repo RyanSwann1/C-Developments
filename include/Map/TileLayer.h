@@ -14,15 +14,12 @@ class TileLayer
 {
 	friend class WorldMap;
 public:
-	TileLayer(TileSheetManager& tileSetManager, const TileMapData& tileMapData, 
-		const sf::Vector2i& mapSize, const std::string& name, const std::string& tileSheetName);
+	TileLayer(const TileMapData& tileMapData, const sf::Vector2i& mapSize, const std::string& name, const std::string& tileSheetName);
 
 	const std::string& getName() const { return m_name; }
-	//const std::vector<std::pair<int, TileInfo>>& getTileMap() const { return m_tileMap; }
 	const std::vector<TileInfo>& getTileMap() const { return m_tileMap; }
 
-	const std::vector<TileInfo> loadTileMap(TileSheetManager& tileSetManager, const TileMapData& tileMapData, 
-	const sf::Vector2i& mapSize, const std::string& tileSheetName) const;
+	std::vector<TileInfo> loadTileMap(const TileMapData& tileMapData, const sf::Vector2i& mapSize, const std::string& tileSheetName) const;
 
 	void draw(sf::RenderWindow& window);
 

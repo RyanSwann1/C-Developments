@@ -7,7 +7,7 @@ class CoinTile :
 	public InteractiveTile
 {
 public:
-	CoinTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
+	CoinTile(InteractiveTileLayer& interactiveTileLayer, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
 
 	int getScoreValue() const { return m_scoreValue; }
 	
@@ -17,5 +17,5 @@ public:
 private:
 	int m_scoreValue;
 
-	void loadInCoinDetails();
+	void loadInCoinDetails(const std::string& name);
 };

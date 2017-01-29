@@ -1,13 +1,16 @@
 #pragma once
 
 #include "States\StateBase.h"
-#include "Managers\LevelManager.h"
 #include "Managers\GameManager.h"
+#include "Map\WorldMap.h"
+#include "Managers\EntityManager.h"
+#include "Managers\TileSheetManager.h"
 
 class StateGame : public StateBase
 {
 public:
 	StateGame(StateManager& stateManager, const StateType type);
+	~StateGame() override;
 
 	void onEnter() override;
 	void onExit() override;
@@ -16,6 +19,8 @@ public:
 	void draw(sf::RenderWindow& window) override;
 
 private:
-	LevelManager m_levelManager;
+	TileSheetManager m_tileSheetManager;
+	WorldMap m_worldMap;
+	EntityManager m_entityManager;
 	GameManager m_gameManager;
 };

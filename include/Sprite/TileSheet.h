@@ -1,7 +1,5 @@
 #pragma once
 
-#include "SharedContext.h"
-#include "Managers\TextureManager.h"
 #include "Sprite\TileSheetDetails.h"
 
 #include <unordered_map>
@@ -14,15 +12,14 @@
 class TileSheet
 {
 public:
-	TileSheet(TextureManager& textureManager, const TileSheetDetails& details);
+	TileSheet(const TileSheetDetails& details);
 	
 	const sf::Texture* const getTexture() const;
 	inline const TileSheetDetails& getDetails() const { return m_details; }
-	const sf::IntRect getTileLocationByID(const int ID) const;
-	const sf::IntRect getTileLocationByPosition(const sf::IntRect& rect) const;
-	inline void releaseTileSheetTexture() const { m_textureManager.releaseResource(m_details.m_name); }; //Maybe implement
+	sf::IntRect getTileLocationByID(const int ID) const;
+	sf::IntRect getTileLocationByPosition(const sf::IntRect& rect) const;
+	void releaseTileSheetTexture() const;
 
 private:
-	TextureManager& m_textureManager;
 	const TileSheetDetails m_details;
 };

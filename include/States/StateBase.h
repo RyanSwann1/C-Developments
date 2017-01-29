@@ -9,8 +9,11 @@ class StateBase
 public:
 	StateBase(StateManager& stateManager, const StateType type)
 		: m_stateManager(stateManager),
+		m_view(),
 		m_stateType(type)
 	{}
+
+	virtual ~StateBase() {}
 
 	StateType getType() const { return m_stateType; }
 	const sf::View& getView() const { return m_view; }
@@ -25,7 +28,7 @@ protected:
 	StateManager& getStateManager() { return m_stateManager; }
 
 private:
+	StateManager& m_stateManager;
 	sf::View m_view;
 	const StateType m_stateType;
-	StateManager& m_stateManager;
 };

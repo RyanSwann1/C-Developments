@@ -7,8 +7,7 @@
 class Character : public Entity
 {
 public:
-	Character(SharedContext& sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name);
-
+	Character(GameManager& gameManager, WorldMap& worldMap, EntityManager& entityManager, const sf::Vector2f& pos, const int ID, const std::string& name, const EntityType type);
 	void update(const float deltaTime) override;
 	void handleTileCollisions(const std::vector<CollisionElement*>& collisions) override;
 	virtual void reduceLife();
@@ -25,15 +24,8 @@ private:
 	Timer m_doubleJumpTimer;
 	Timer m_hurtTimer;
 	EntityState m_currentState;
-	//AttackManager m_attackManager;
 	sf::FloatRect m_attackAABB;
-
-	void determineAnimationType();
 	EntityState m_state;
-	void setState(const EntityState state);
-
-	void loadInCharacterDetails();
-
 	int m_maxLives;
 	int m_lives;
 	int m_damage;
@@ -46,4 +38,7 @@ private:
 
 	void handleTimers(const float deltaTime);
 	void checkBounds();
+	void setState(const EntityState state);
+	void loadInCharacterDetails();
+	void determineAnimationType();
 };

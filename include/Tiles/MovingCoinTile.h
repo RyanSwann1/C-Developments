@@ -5,7 +5,7 @@ class MovingCoinTile :
 	public InteractiveTile
 {
 public:
-	MovingCoinTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
+	MovingCoinTile(InteractiveTileLayer& interactiveTileLayer, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
 
 	int getScoreValue() const { return m_scoreValue; }
 

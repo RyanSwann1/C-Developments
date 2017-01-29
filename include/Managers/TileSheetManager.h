@@ -5,12 +5,13 @@
 #include <unordered_map>
 
 struct TileSheetDetails;
-class TextureManager;
 class TileSheetManager
 {
 public:
+	TileSheetManager();
+
 	TileSheet& getTileSheet(const std::string& name);
-	void addTileSheet(TextureManager& textureManager, const TileSheetDetails& tileSheetDetails);
+	void addTileSheet(const TileSheetDetails& tileSheetDetails);
 	void releaseTileSheet(const std::string& name);
 
 private:

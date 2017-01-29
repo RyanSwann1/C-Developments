@@ -9,12 +9,10 @@
 #include <unordered_map>
 #include <SFML\Graphics.hpp>
 
-
-
 class WorldMap
 {
 public:
-	WorldMap(SharedContext& sharedContext);
+	WorldMap();
 
 	inline InteractiveTileLayer& getInteractiveTileLayer() { return m_interactiveTileLayer; }
 	inline CollidableTileLayer& getCollidableTileLayer() { return m_collidableTileLayer; }
@@ -23,7 +21,7 @@ public:
 	void assignTileLayer(const TileLayer& newTileLayer);
 	void setMapDetails(const MapDetails& details) { m_details = details; }
 
-	void changeMap();
+	void clearMap();
 	
 	inline void purgeTileLayers() { m_tileLayers.clear(); }
 	const bool hasTileLayer(const std::string& tileLayerName) const;
@@ -32,16 +30,9 @@ public:
 	void draw(sf::RenderWindow& window);
 
 private:
-	SharedContext& m_sharedContext;
 	std::vector<TileLayer> m_tileLayers;
 	InteractiveTileLayer m_interactiveTileLayer;
 	CollidableTileLayer m_collidableTileLayer;
-	
 	MapDetails m_details;
 	std::string m_currentMapName;
-	//std::string m_name;
-	void clearMap();
-
-	
-	std::unordered_map<std::string, std::string> m_mapNames;
 };

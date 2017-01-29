@@ -1,22 +1,21 @@
 #pragma once
 
 #include "Entities\Character.h"
-class CoinTile;
+
 struct EventDetails;
 class Player : public Character
 {
 public:
-	Player(SharedContext& sharedContext, const sf::Vector2f& pos, const int ID, const std::string& name);
-	~Player();
+	Player(GameManager& gameManager, WorldMap& worldMap, EntityManager& entityManager, const sf::Vector2f& pos, const int ID, const std::string& name, const EntityType type);
+	~Player() override;
 
 	bool isHoldingKey() const { return m_holdingKey; }
 	bool isOnNextLevelTile() const { return m_onNextLevelTile; }
 
-	void reduceLife() override;
+	void reduceLife() override final;
 	void increaseScore(const int i);
-	void update(const float deltaTime) override final;
 	void onEntityCollision(Entity& entity) override {}
-	void onInteractiveTileCollision(InteractiveTile& tile) override;
+	void onInteractiveTileCollision(InteractiveTile& tile) override ;
 
 private:
 	bool m_holdingKey; //Player holding key

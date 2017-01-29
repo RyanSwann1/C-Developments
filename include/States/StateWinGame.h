@@ -9,4 +9,6 @@ public:
 
 	void update(const float deltaTime) override;
 	void draw(sf::RenderWindow& window) override;
+
+	void onEnter() override;
 };

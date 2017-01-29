@@ -1,5 +1,7 @@
 #pragma once
 
-struct SharedContext;
+class EntityManager;
+class WorldMap;
 class Entity;
-void updateCollisions(const SharedContext& sharedContext, Entity& entity);
+
+void updateCollisions(const EntityManager& entityManager, WorldMap& worldMap, Entity& entity);

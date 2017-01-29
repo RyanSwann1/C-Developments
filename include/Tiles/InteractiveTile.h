@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Managers\AnimationManager.h"
-#include "Map\TileInfo.h"
+#include "Map\InteractiveTileLayer.h"
+#include "Animations\AnimationPlayer.h"
 #include "Tiles\TileType.h"
 #include "Timer.h"
 #include <SFML\Graphics.hpp>
@@ -10,8 +10,8 @@ class Player;
 class InteractiveTile
 {
 public:
-	InteractiveTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
-	virtual ~InteractiveTile() {}
+	InteractiveTile(InteractiveTileLayer& interactiveTileLayer, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type);
+	virtual ~InteractiveTile() {}	
 
 	inline int getID() const { return m_ID; }
 	const sf::Vector2f& getPosition() const { return m_position; }
@@ -23,8 +23,8 @@ public:
 	void draw(sf::RenderWindow& window);
 
 protected:
-	AnimationManager& getAnimationManager() { return m_animationManager; }
-	SharedContext& getSharedContext() { return m_sharedContext; }
+	AnimationPlayer& getAnimationPlayer() { return m_animationPlayer; }
+	InteractiveTileLayer& getInteractiveTileLayer() { return m_interactiveTileLayer; }
 	Timer& getActivationTimer() { return m_activationTimer; }
 	Timer& getMovementTimer() { return m_movementTimer; }
 
@@ -33,11 +33,11 @@ protected:
 
 	void removeTile();
 	void moveInDirection(const float deltaTime);
-	void moveToPosition(const sf::Vector2f& pos) { setPosition(pos); }
+	void moveToPosition(const sf::Vector2f& pos);
 
 private:
-	AnimationManager m_animationManager;
-	SharedContext& m_sharedContext;
+	AnimationPlayer m_animationPlayer;
+	InteractiveTileLayer& m_interactiveTileLayer;
 	Timer m_activationTimer;
 	Timer m_movementTimer;
 	const int m_ID;
@@ -45,10 +45,8 @@ private:
 	const std::string m_name;
 	Direction m_currentDirection;
 	float m_movementSpeed;
-
 	sf::RectangleShape m_shape;
 	sf::Vector2f m_position;
 
-	void loadInDetails(const std::string& fileName);
-	void setPosition(const sf::Vector2f& pos);
+	//void loadInDetails();
 };
