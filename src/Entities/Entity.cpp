@@ -2,32 +2,65 @@
 #include "Map\WorldMap.h"
 #include "Utilities.h"
 #include "CollisionElement.h"
-
+#include "Managers\CollisionManager.h"
+#include "Managers\TileSheetManager.h"
 #include <math.h>
 #include <fstream>
 #include <sstream>
 #include <assert.h>
 #include <iostream>
 
-Entity::Entity(SharedContext & sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name)
-	: m_sharedContext(sharedContext),
-	m_animationManager(sharedContext),
+//Entity::Entity(SharedContext & sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name)
+//	: m_sharedContext(sharedContext),
+//	m_animationPlayer(sharedContext),
+//	m_startPosition(pos),
+//	m_position(m_startPosition),
+//	m_onTile(false),
+//	m_gravity(0),
+//	m_ID(ID),
+//	m_collidingOnX(false),
+//	m_collidingOnY(false),
+//	m_type(type),
+//	m_name(name),
+//	m_AABB()
+//{
+//	m_maxVelocity = sf::Vector2f(60, 10000);
+//	m_friction.x = 0.05f;
+//	m_gravity = 0.4f;
+//
+//	loadInEntityDetails();
+//}
+
+Entity::Entity(GameManager & gameManager, WorldMap & worldMap, EntityManager & entityManager, const sf::Vector2f & pos, const int ID, const std::string & name, const EntityType type)
+	: m_worldMap(worldMap),
+	m_entityManager(entityManager),
+	m_gameManager(gameManager),
+	m_animationPlayer(name),
+	m_currentDirection(),
+	m_velocity(),
+	m_maxVelocity(),
+	m_acceleration(),
+	m_speed(),
+	m_friction(),
+	m_oldPosition(),
 	m_startPosition(pos),
 	m_position(m_startPosition),
+	m_AABB(sf::Vector2f(0, 0), sf::Vector2f(worldMap.getMapDetails().m_tileSize, m_worldMap.getMapDetails().m_tileSize)),
+	m_drawThis(),
+	m_type(type),
+	m_ID(ID),
+	m_name(name),
 	m_onTile(false),
 	m_gravity(0),
-	m_ID(ID),
 	m_collidingOnX(false),
 	m_collidingOnY(false),
-	m_type(type),
-	m_name(name),
-	m_AABB(sf::Vector2f(0, 0) ,sf::Vector2f(m_sharedContext.m_worldMap.getMapDetails().m_tileSize, m_sharedContext.m_worldMap.getMapDetails().m_tileSize))
+	m_stationary(false)
 {
-	m_maxVelocity = sf::Vector2f(60, 10000);
+	loadInEntityDetails();
+	//m_maxVelocity = sf::Vector2f(60, 10000);
 	m_friction.x = 0.05f;
 	m_gravity = 0.4f;
 
-	loadInEntityDetails();
 }
 
 void Entity::handleTileCollisions(const std::vector<CollisionElement*>& collisions)
@@ -105,7 +138,7 @@ void Entity::draw(sf::RenderWindow & window)
 	shape.setPosition(m_position);
 	shape.setFillColor(sf::Color::Green);
 	//awindow.draw(shape);
-	m_animationManager.draw(window);
+	m_animationPlayer.draw(window);
 }
 
 void Entity::update(const float deltaTime)
@@ -123,11 +156,12 @@ void Entity::update(const float deltaTime)
 
 	m_collidingOnX = false;
 	m_collidingOnY = false;
+	m_onTile = false;
 
 	updateAABB();
-	m_animationManager.update(deltaTime);
-	m_animationManager.setPosition(m_position);
-	updateCollisions(m_sharedContext, *this);
+	m_animationPlayer.update(deltaTime);
+	m_animationPlayer.setPosition(m_position);
+	updateCollisions(m_entityManager, m_worldMap, *this);
 }
 
 void Entity::moveInDirection(const Direction newDir)
@@ -274,8 +308,7 @@ void Entity::updateAABB()
 
 void Entity::loadInEntityDetails()
 {
-	const Utilities& utilities = Entity::getSharedContext().m_utilities;
-	std::ifstream file(utilities.getEntityDetails(Entity::getName()));
+	std::ifstream file(Utilities::getEntityDetails(getName()));
 	assert(file.is_open());
 
 	std::string line;
@@ -285,24 +318,20 @@ void Entity::loadInEntityDetails()
 		std::string type;
 		keyStream >> type;
 
-		if (type == "Animations")
+		if (type == "Speed")
 		{
-			std::string animationFileName;
-			keyStream >> animationFileName;
-			Entity::getAnimationManager().loadInAnimations(animationFileName);
-		}
-		else if (type == "Speed")
-		{
-			sf::Vector2f speed;
-			keyStream >> speed.x >> speed.y;
-			Entity::setSpeed(speed);
+			keyStream >> m_speed.x >> m_speed.y;
 		}
 		else if (type == "MaxVelocity")
 		{
-			sf::Vector2f maxVel;
-			keyStream >> maxVel.x >> maxVel.y;
-			Entity::setMaxVelocity(maxVel);
+			keyStream >> m_maxVelocity.x >> m_maxVelocity.y;
 		}
+		else if (type == "Friction")
+		{
+			keyStream >> m_friction.x >> m_friction.y;
+		}
+		//Can reach end with not picking any up and be successful in code == bad
+		//Perform some sort of checkto make sure that values are assigned
 	}
 
 	file.close();

@@ -6,11 +6,11 @@
 #include <sstream>
 #include <assert.h>
 
-CoinTile::CoinTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
-	:InteractiveTile(sharedContext, name, pos, ID, type),
+CoinTile::CoinTile(InteractiveTileLayer& interactiveTileLayer, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
+	:InteractiveTile(interactiveTileLayer, name, pos, ID, type),
 	m_scoreValue(1)
 {
-	loadInCoinDetails();
+	loadInCoinDetails(name);
 }
 
 void CoinTile::update(const float deltaTime)
@@ -39,9 +39,9 @@ void CoinTile::activate(Player & player)
 	InteractiveTile::removeTile();
 }
 
-void CoinTile::loadInCoinDetails()
+void CoinTile::loadInCoinDetails(const std::string& name)
 {
-	std::ifstream file(InteractiveTile::getSharedContext().m_utilities.getInteractiveTileDetails(InteractiveTile::getName()));
+	std::ifstream file(Utilities::getInteractiveTileDetails(name));
 	assert(file.is_open());
 
 	std::string line;

@@ -7,8 +7,28 @@
 #include <assert.h>
 #include <iostream>
 
-Character::Character(SharedContext& sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name)
-	: Entity(sharedContext, type, pos, ID, name),
+//Character::Character(SharedContext& sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name)
+//	: Entity(sharedContext, type, pos, ID, name),
+//	m_maxLives(0),
+//	m_lives(0),
+//	m_damage(0),
+//	m_hurtTime(0),
+//	m_jumpTime(0),
+//	m_doubleJumpTime(0),
+//	m_jumpVelocity(0),
+//	m_jumpReady(true)
+//{
+//	loadInCharacterDetails();
+//}
+
+Character::Character(GameManager & gameManager, WorldMap & worldMap, EntityManager & entityManager, const sf::Vector2f & pos, const int ID, const std::string & name, const EntityType type)
+	: Entity(gameManager, worldMap, entityManager, pos, ID, name, type),
+	m_jumpingTimer(),
+	m_doubleJumpTimer(),
+	m_hurtTimer(),
+	m_currentState(),
+	m_attackAABB(),
+	m_state(),
 	m_maxLives(0),
 	m_lives(0),
 	m_damage(0),
@@ -16,7 +36,8 @@ Character::Character(SharedContext& sharedContext, const EntityType type, const 
 	m_jumpTime(0),
 	m_doubleJumpTime(0),
 	m_jumpVelocity(0),
-	m_jumpReady(true)
+	m_jumpReady(false),
+	m_climbingReady(false)
 {
 	loadInCharacterDetails();
 }
@@ -51,34 +72,29 @@ void Character::handleTileCollisions(const std::vector<CollisionElement*>& colli
 
 void Character::determineAnimationType()
 {
-	AnimationManager& animationManager = Entity::getSpriteSheet();
-	const Direction dir = Entity::getCurrentDirection();
-
+	//AnimationPlayer& animationPlayer = Entity::getAnimationPlayer();
+	//const Direction dir = Entity::getCurrentDirection();
 	switch (m_state)
 	{
-	case (EntityState::Idling) :
+	case EntityState::Idling :
 	{
-		animationManager.setAnimationType("Idling", dir);
+		Entity::getAnimationPlayer().setCurrentAnimation("Idling", Entity::getCurrentDirection());
 		break;
 	}
-	case (EntityState::Walking) :
+	case EntityState::Walking :
 	{
-		animationManager.setAnimationType("Walking", dir);
+		Entity::getAnimationPlayer().setCurrentAnimation("Walking", Entity::getCurrentDirection());
 		break;
 	}
-	case (EntityState::Hurt) :
+	case EntityState::Hurt :
 	{
-		const Animation& animation = animationManager.getCurrentAnimation();
-		if (animation.isFinished())
+		if (Entity::getAnimationPlayer().getCurrentAnimationName() == "Hurt" && Entity::getAnimationPlayer().isAnimationFinished())
 		{
-			animationManager.setAnimationType("Idling", dir);
-			break;
+			Entity::getAnimationPlayer().setCurrentAnimation("Idling", Entity::getCurrentDirection());
 		}
-	
-		animationManager.setAnimationType("Idling", dir);
 		break;
 	}
-	case (EntityState::Dead) :
+	case EntityState::Dead :
 	{
 		break;
 	}
@@ -95,8 +111,7 @@ void Character::setState(const EntityState state)
 
 void Character::loadInCharacterDetails()
 {
-	const Utilities& utilities = Entity::getSharedContext().m_utilities;
-	std::ifstream file(utilities.getEntityDetails(Entity::getName()));
+	std::ifstream file(Utilities::getEntityDetails(Entity::getName()));
 	assert(file.is_open());
 
 	std::string line;
@@ -128,6 +143,7 @@ void Character::loadInCharacterDetails()
 		else if (type == "JumpVelocity")
 		{
 			keyStream >> m_jumpVelocity;
+			m_jumpVelocity = 10;
 		}
 		else if (type == "MaxLives")
 		{
@@ -205,11 +221,6 @@ void Character::handleTimers(const float deltaTime)
 	if (m_jumpingTimer.isActive())
 	{
 		addVelocity(0, -m_jumpVelocity);
-		//std::cout << "hi";
-		if (m_jumpingTimer.isExpired())
-		{
-			m_jumpingTimer.deactivate();
-		}
 	}
 
 	//Double Jump Timer
@@ -217,27 +228,19 @@ void Character::handleTimers(const float deltaTime)
 	if (m_doubleJumpTimer.isActive())
 	{
 		addVelocity(0, -m_jumpVelocity);
-		if (m_doubleJumpTimer.isExpired())
-		{
-			m_doubleJumpTimer.deactivate();
-		}
 	}
 
 	//Hurt Timer
 	m_hurtTimer.update(deltaTime);
 	if (m_hurtTimer.isActive())
 	{
-		if (m_hurtTimer.isExpired())
-		{
-			m_hurtTimer.deactivate();
-		}
+		
 	}
-
 }
 
 void Character::checkBounds()
 {
-	const MapDetails& mapDetails = Entity::getSharedContext().m_worldMap.getMapDetails();
+	const MapDetails& mapDetails = Entity::getWorldMap().getMapDetails();
 	if (Entity::getPosition().y > (mapDetails.m_mapSize.y * mapDetails.m_tileSize))
 	{
 		reduceLife();

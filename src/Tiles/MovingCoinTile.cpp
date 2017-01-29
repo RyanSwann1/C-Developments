@@ -6,8 +6,8 @@
 #include <sstream>
 #include <assert.h>
 
-MovingCoinTile::MovingCoinTile(SharedContext& sharedContext, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
-	: InteractiveTile(sharedContext, name, pos, ID, type),
+MovingCoinTile::MovingCoinTile(InteractiveTileLayer& interactiveTileLayer, const std::string& name, const sf::Vector2f& pos, const int ID, const TileType type)
+	: InteractiveTile(interactiveTileLayer, name, pos, ID, type),
 	m_scoreValue(0)
 {
 	loadInCoinDetails();
@@ -17,15 +17,15 @@ MovingCoinTile::MovingCoinTile(SharedContext& sharedContext, const std::string& 
 
 void MovingCoinTile::update(const float deltaTime)
 {
-	Timer& moveTimer = InteractiveTile::getMovementTimer();
-	if (moveTimer.isActive())
+	InteractiveTile::getMovementTimer().update(deltaTime);
+	
+	if (InteractiveTile::getMovementTimer().isActive())
 	{
-		moveTimer.update(deltaTime);
 		InteractiveTile::moveInDirection(deltaTime);
-		if (moveTimer.isExpired())
-		{
-			InteractiveTile::removeTile();
-		}
+	}
+	else if (InteractiveTile::getMovementTimer().isFinished())
+	{
+		InteractiveTile::removeTile();
 	}
 }
 
@@ -37,7 +37,7 @@ void MovingCoinTile::activate(Player & player)
 
 void MovingCoinTile::loadInCoinDetails()
 {
-	std::ifstream file(InteractiveTile::getSharedContext().m_utilities.getInteractiveTileDetails(InteractiveTile::getName()));
+	std::ifstream file(Utilities::getInteractiveTileDetails(InteractiveTile::getName()));
 	assert(file.is_open());
 
 	std::string line;

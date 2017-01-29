@@ -1,5 +1,6 @@
 #include "Sprite\TileSheet.h"
 #include "Managers\TextureManager.h"
+#include "Locators\TextureManagerLocator.h"
 #include "Map\WorldMap.h"
 #include <algorithm>
 #include <fstream>
@@ -7,19 +8,18 @@
 #include <assert.h>
 #include "..\..\include\Sprite\TileSheet.h"
 
-TileSheet::TileSheet(TextureManager& textureManager, const TileSheetDetails& details)
-	: m_textureManager(textureManager),
-	m_details(details)
+TileSheet::TileSheet(const TileSheetDetails& details)
+	: m_details(details)
 {}
 
 const sf::Texture * const TileSheet::getTexture() const
 {
-	auto texture = m_textureManager.getResource(m_details.m_name);
+	auto texture = TextureManagerLocator::getTextureManager().getResource(m_details.m_name);
 	assert(texture);
 	return texture;
 }
 
-const sf::IntRect TileSheet::getTileLocationByID(const int ID) const
+sf::IntRect TileSheet::getTileLocationByID(const int ID) const
 {
 	//Scan through every tile on tilesheet to find appropriate tile by ID
 	int col = 0, row = 1;
@@ -60,10 +60,15 @@ const sf::IntRect TileSheet::getTileLocationByID(const int ID) const
 	//	(m_tileSetDetails.m_margin + ((m_tileSetDetails.m_spacing + tileSize) * col)), tileSize, tileSize);
 }
 
-const sf::IntRect TileSheet::getTileLocationByPosition(const sf::IntRect & rect) const
+sf::IntRect TileSheet::getTileLocationByPosition(const sf::IntRect & rect) const
 {
 	const int tileSize = m_details.m_tileSize;
 	const sf::IntRect tilePos(rect.left * tileSize, rect.top * tileSize, rect.width * tileSize, rect.height * tileSize);
 
 	return tilePos;
+}
+
+void TileSheet::releaseTileSheetTexture() const
+{
+	TextureManagerLocator::getTextureManager().releaseResource(m_details.m_name);
 }

@@ -32,19 +32,27 @@ private:
 	template <class T>
 	void registerState(StateManager* stateManager, const StateType stateType)
 	{
-		if (m_stateFactory.find(stateType) == m_stateFactory.cend())
+		assert(m_stateFactory.find(stateType) == m_stateFactory.cend());
+		m_stateFactory.emplace(std::make_pair(stateType, [stateType, stateManager]() -> StateBase*
 		{
-			m_stateFactory.emplace(std::make_pair(stateType, [stateType, stateManager]() -> StateBase*
-			{
-				return new T(*stateManager, stateType);
-			}));
-		}
+			return new T(*stateManager, stateType);
+		}));
 	}
 };
 
+//const StateFactory* const m_stateFactory;
+//std::vector<StateBase*> m_states;
+//std::vector<StateType> m_statesToRemove;
+//std::vector<StateType> m_statesToAdd;
+//StateBase* m_currentState;
+//SharedContext& m_sharedContext;
+
 StateManager::StateManager(SharedContext & sharedContext)
-	: m_currentState(nullptr),
-	m_stateFactory(new StateFactory(this)),
+	: m_stateFactory(new StateFactory(this)),
+	m_states(),
+	m_statesToRemove(),
+	m_statesToAdd(),
+	m_currentState(nullptr),
 	m_sharedContext(sharedContext)
 {
 }

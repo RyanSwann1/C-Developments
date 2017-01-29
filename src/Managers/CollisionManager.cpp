@@ -1,44 +1,39 @@
-#include "..\..\include\Managers\CollisionManager.h"
-#include "SharedContext.h"
+#include "Managers\CollisionManager.h"
 #include "Map\WorldMap.h"
-#include "Map\CollidableTileLayer.h"
-#include "Entities\Player.h"
+#include "Entities\Entity.h"
 #include "Map\MapDetails.h"
 #include "CollisionElement.h"
 #include "Managers\EntityManager.h"
-#include "Map\InteractiveTileLayer.h"
+#include "Tiles\InteractiveTile.h"
 #include <vector>
 #include <math.h>
 #include <algorithm>
 
-
-const std::vector<CollisionElement*> checkForTiles(const SharedContext& sharedContext, Entity& entity);
-void checkForEntities(const SharedContext& sharedContext, Entity& entity);
-void checkForInteractiveTiles(const SharedContext& sharedContext, Player& entity);
-void handleTileCollisions(const SharedContext& sharedContext, Entity& entity);
+std::vector<CollisionElement*> checkForTiles(WorldMap& worldMap, Entity& entity);
+void checkForEntities(const EntityManager& entityManager, const WorldMap& worldMap, Entity& entity);
+void checkForInteractiveTiles(WorldMap& worldMap, Entity& entity);
+void handleTileCollisions(WorldMap& worldMap, Entity& entity);
 bool checkForCollision(const sf::Vector2f& entityPos, const sf::Vector2f& tilePos, const int tileSize);
 
-
 //Passing by reference means that it'll only access the entity base member
-void updateCollisions(const SharedContext & sharedContext, Entity & entity)
+void updateCollisions(const EntityManager& entityManager, WorldMap& worldMap, Entity & entity)
 {
-	handleTileCollisions(sharedContext, entity);
-	checkForEntities(sharedContext, entity);
+	handleTileCollisions(worldMap, entity);
+	checkForEntities(entityManager, worldMap, entity);
 	
 	//Only Player checks for interactive tiles
 	if (entity.getType() == EntityType::Player)
 	{
-		checkForInteractiveTiles(sharedContext, *static_cast<Player*>(&entity));
+		checkForInteractiveTiles(worldMap, entity);
 	}
 }
 
-const std::vector<CollisionElement*> checkForTiles(const SharedContext& sharedContext, Entity& entity)
+std::vector<CollisionElement*> checkForTiles(WorldMap& worldMap, Entity& entity)
 {
-	const CollidableTileLayer collidableTileLayer = sharedContext.m_worldMap.getCollidableTileLayer();
+	const CollidableTileLayer collidableTileLayer = worldMap.getCollidableTileLayer();
 	const std::vector<CollidableTile>& collisionMap = collidableTileLayer.getTileMap();
-	const MapDetails mapDetails = sharedContext.m_worldMap.getMapDetails();
+	const MapDetails mapDetails = worldMap.getMapDetails();
 
-	//const Map& map = *m_sharedContext.m_map;
 	const sf::FloatRect AABB(entity.getAABB());
 	std::vector<CollisionElement*> collisions;
 
@@ -69,10 +64,9 @@ const std::vector<CollisionElement*> checkForTiles(const SharedContext& sharedCo
 	return collisions;
 }
 
-void checkForEntities(const SharedContext& sharedContext, Entity& entity)
+void checkForEntities(const EntityManager& entityManager, const WorldMap& worldMap, Entity& entity)
 {
-	const EntityManager& entityManager = sharedContext.m_entityManager;
-	const int tileSize = sharedContext.m_worldMap.getMapDetails().m_tileSize;
+	const int tileSize = worldMap.getMapDetails().m_tileSize;
 	Entity* const entity2 = entityManager.getEntityAtPosition(entity.getPosition(), tileSize);
 	if (entity2)
 	{
@@ -81,10 +75,10 @@ void checkForEntities(const SharedContext& sharedContext, Entity& entity)
 	}
 }
 
-void checkForInteractiveTiles(const SharedContext& sharedContext, Player& entity)
+void checkForInteractiveTiles(WorldMap& worldMap, Entity& entity)
 {
-	const std::vector<InteractiveTile*>& tiles = sharedContext.m_worldMap.getInteractiveTileLayer().getTiles();
-	const int tileSize = sharedContext.m_worldMap.getMapDetails().m_tileSize;
+	const std::vector<InteractiveTile*>& tiles = worldMap.getInteractiveTileLayer().getTiles();
+	const int tileSize = worldMap.getMapDetails().m_tileSize;
 
 	//const sf::Vector2f entityPos = sf::Vector2f(std::floor(entity.getPosition().x / tileSize), std::floor(entity.getPosition().y / tileSize));
 	for (const auto &i : tiles)
@@ -103,9 +97,9 @@ void checkForInteractiveTiles(const SharedContext& sharedContext, Player& entity
 	}
 }
 
-void handleTileCollisions(const SharedContext& sharedContext, Entity& entity)
+void handleTileCollisions(WorldMap& worldMap, Entity& entity)
 {
-	std::vector<CollisionElement*> tileCollisions = checkForTiles(sharedContext, entity);
+	std::vector<CollisionElement*> tileCollisions = checkForTiles(worldMap, entity);
 
 	//Sort so collisions are in greatest area order
 	std::sort(tileCollisions.begin(), tileCollisions.end(), [](CollisionElement* const col1, CollisionElement* const col2) { return col1->m_area > col2->m_area; });

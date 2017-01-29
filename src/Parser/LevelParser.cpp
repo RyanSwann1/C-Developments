@@ -6,15 +6,20 @@
 #include "Map\WorldMap.h"
 #include "Base64.h"
 #include "Managers\TextureManager.h"
+#include "Locators\TextureManagerLocator.h"
 #include "Map\MapDetails.h"
 #include "Managers\EntityManager.h"
 #include "Managers\TileSheetManager.h"
+#include "Locators\TileSheetManagerLocator.h"
 #include "Map\InteractiveTileLayer.h"
 #include "Sprite\TileSheetDetails.h"
 #include <assert.h>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <vector>
+#include <SFML\Graphics.hpp>
+#include "XML\tinyxml.h"
 
 struct LevelDetails
 {
@@ -27,11 +32,22 @@ struct LevelDetails
 	const sf::Vector2i m_mapSize;
 };
 
-LevelParser::LevelParser(SharedContext & sharedContext)
-	: m_sharedContext(sharedContext)
-{}
+void parseTextures(const TiXmlElement & root);
+void parseTileSet(const TiXmlElement & root);
+void parseTileMap(WorldMap& worldMap, const TiXmlElement & root, const LevelDetails & levelDetails);
+void parseObjects(EntityManager& entityManager, const TiXmlElement & root);
+void parseTileLayer(WorldMap& worldMap, const TiXmlElement & tileLayerElement, const LevelDetails& levelDetails, const std::string& tileSheetName, const std::string& name);
+void parseInteractiveTiles(WorldMap& worldMap, const TiXmlElement & root, const LevelDetails & levelDetails);
+void parseCollidableLayer(WorldMap& worldMap, const TiXmlElement & root, const LevelDetails& levelDetails);
+const LevelDetails parseLevelDetails(const TiXmlElement& root);
 
-void LevelParser::parseLevel(const std::string & levelName)
+const TiXmlElement* findNode(const TiXmlElement& root, const std::string& name);
+const TiXmlElement* findNode(const TiXmlElement& root, const std::string& value, const std::string& name);
+const std::vector<std::vector<int>> decodeTileLayer(const TiXmlElement& tileLayerElement, const LevelDetails& levelDetails);
+const int getNumberOfTileLayers(const TiXmlElement& root);
+const int getNumberOfTileSets(const TiXmlElement& root);
+
+void parseLevel(GameManager& gameManager, WorldMap& worldMap, EntityManager& entityManager, const std::string & levelName)
 {
 	//Load XML file
 	TiXmlDocument levelDocument;
@@ -46,16 +62,16 @@ void LevelParser::parseLevel(const std::string & levelName)
 
 	//Create level
 	const LevelDetails levelDetails = parseLevelDetails(rootNode);
-	m_sharedContext.m_worldMap.setMapDetails(MapDetails(levelDetails.m_tileSize, sf::Vector2i(levelDetails.m_mapSize)));
+	worldMap.setMapDetails(MapDetails(levelDetails.m_tileSize, sf::Vector2i(levelDetails.m_mapSize)));
 	parseTileSet(rootNode);
-	parseTileMap(rootNode, levelDetails);
-	parseCollidableLayer(rootNode, levelDetails);
-	parseInteractiveTiles(rootNode, levelDetails);
+	parseTileMap(worldMap, rootNode, levelDetails);
+	parseCollidableLayer(worldMap, rootNode, levelDetails);
+	parseInteractiveTiles(worldMap, rootNode, levelDetails);
 
-	std::cout << m_sharedContext.m_textureManager.getResourceCount("kenney_16x16") << "\n";
+	//std::cout << textureManager.getResourceCount("kenney_16x16") << "\n";
 	
 	//Load in objects
-	parseObjects(rootNode);
+	parseObjects(entityManager, rootNode);
 	
 	//m_sharedContext.m_entityManager.addEntity("Player", );
 
@@ -63,19 +79,18 @@ void LevelParser::parseLevel(const std::string & levelName)
 }
 
 //Use for parsing object textures - not possibly needed will have to see further into development
-void LevelParser::parseTextures(const TiXmlElement & root)
+void parseTextures(const TiXmlElement & root)
 {
-	TextureManager& textureManager = m_sharedContext.m_textureManager;
 	for (const TiXmlElement* e = root.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
 		if (e->Value() == "property")
 		{
-			textureManager.registerFilePath(e->Attribute("name"), e->Attribute("value"));
+			TextureManagerLocator::getTextureManager().registerFilePath(e->Attribute("name"), e->Attribute("value"));
 		}
 	}
 }
 
-void LevelParser::parseObjects(const TiXmlElement & root)
+void parseObjects(EntityManager& entityManager, const TiXmlElement & root)
 {
 	const TiXmlElement& objectRoot = *findNode(root, "objectgroup", "Object Layer");
 	for (const TiXmlElement* e = objectRoot.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
@@ -85,19 +100,19 @@ void LevelParser::parseObjects(const TiXmlElement & root)
 		e->Attribute("x", &xPos);
 		e->Attribute("y", &yPos);
 
-		m_sharedContext.m_entityManager.addEntity(name, sf::Vector2f(xPos, yPos));
+		entityManager.addEntity(name, sf::Vector2f(xPos, yPos));
 	}
 }
 
-void LevelParser::parseTileLayer(const TiXmlElement & tileLayerElement, const LevelDetails& levelDetails, const std::string& tileSheetName, const std::string& name)
+void parseTileLayer(WorldMap& worldMap, const TiXmlElement & tileLayerElement, const LevelDetails& levelDetails, const std::string& tileSheetName, const std::string& name)
 {
 	const std::vector<std::vector<int>> tileData = decodeTileLayer(tileLayerElement, levelDetails);
 	
-	TileLayer tileLayer(m_sharedContext.m_tileSheetManager, tileData, levelDetails.m_mapSize, name, tileSheetName);
-	m_sharedContext.m_worldMap.assignTileLayer(tileLayer);
+	TileLayer tileLayer(tileData, levelDetails.m_mapSize, name, tileSheetName);
+	worldMap.assignTileLayer(tileLayer);
 }
 
-void LevelParser::parseInteractiveTiles(const TiXmlElement & root, const LevelDetails & levelDetails)
+void parseInteractiveTiles(WorldMap& worldMap, const TiXmlElement & root, const LevelDetails & levelDetails)
 {
 	const TiXmlElement& objectRoot = *findNode(root, "objectgroup", "Interactive Tile Layer");
 	for (const TiXmlElement* e = objectRoot.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
@@ -110,12 +125,12 @@ void LevelParser::parseInteractiveTiles(const TiXmlElement & root, const LevelDe
 		//e->Attribute("id", &ID);
 
 		//std::cout << type << "\n";
-		m_sharedContext.m_worldMap.getInteractiveTileLayer().addTile(sf::Vector2f(xPos, yPos), name);
+		worldMap.getInteractiveTileLayer().addTile(sf::Vector2f(xPos, yPos), name);
 		//m_sharedContext.m_worldMap.getInteractiveTileLayer().addTile(m_sharedContext, sf::Vector2f(xPos, yPos), type, sf::Vector2f(levelDetails.m_mapSize.x, levelDetails.m_mapSize.y));
 	}
 }
 
-void LevelParser::parseCollidableLayer(const TiXmlElement & root, const LevelDetails& levelDetails)
+void parseCollidableLayer(WorldMap& worldMap, const TiXmlElement & root, const LevelDetails& levelDetails)
 {
 	for (const TiXmlElement* e = root.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
@@ -124,12 +139,12 @@ void LevelParser::parseCollidableLayer(const TiXmlElement & root, const LevelDet
 			const std::string layerName = e->Attribute("name");
 			const std::vector<std::vector<int>> tileData = decodeTileLayer(*e, levelDetails);
 
-			m_sharedContext.m_worldMap.getCollidableTileLayer().assignMap(tileData, levelDetails.m_mapSize);
+			worldMap.getCollidableTileLayer().assignMap(tileData, levelDetails.m_mapSize);
 		}
 	}
 }
 
-const LevelDetails LevelParser::parseLevelDetails(const TiXmlElement & root) const
+const LevelDetails parseLevelDetails(const TiXmlElement & root)
 {
 	int width = 0, height = 0, tileSize = 0;
 	root.Attribute("width", &width);
@@ -139,7 +154,7 @@ const LevelDetails LevelParser::parseLevelDetails(const TiXmlElement & root) con
 	return LevelDetails(tileSize, sf::Vector2i(width, height));
 }
 
-const TiXmlElement * LevelParser::findNode(const TiXmlElement& root, const std::string & name) const
+const TiXmlElement * findNode(const TiXmlElement& root, const std::string & name)
 {
 	for (const TiXmlElement* e = root.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
@@ -151,7 +166,7 @@ const TiXmlElement * LevelParser::findNode(const TiXmlElement& root, const std::
 	return nullptr;
 }
 
-const TiXmlElement * LevelParser::findNode(const TiXmlElement & root, const std::string & value, const std::string & name) const
+const TiXmlElement *findNode(const TiXmlElement & root, const std::string & value, const std::string & name)
 {
 	for (const TiXmlElement* e = root.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
 	{
@@ -164,7 +179,7 @@ const TiXmlElement * LevelParser::findNode(const TiXmlElement & root, const std:
 	return nullptr;
 }
 
-const std::vector<std::vector<int>> LevelParser::decodeTileLayer(const TiXmlElement & tileLayerElement, const LevelDetails & levelDetails) const
+const std::vector<std::vector<int>> decodeTileLayer(const TiXmlElement & tileLayerElement, const LevelDetails & levelDetails)
 {
 	std::vector<std::vector<int>> tileData;
 
@@ -209,7 +224,7 @@ const std::vector<std::vector<int>> LevelParser::decodeTileLayer(const TiXmlElem
 	return tileData;
 }
 
-const int LevelParser::getNumberOfTileLayers(const TiXmlElement & root) const
+const int getNumberOfTileLayers(const TiXmlElement & root)
 {
 	int tileLayerCount = 0;
 	for (const TiXmlElement* e = root.FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
@@ -222,7 +237,7 @@ const int LevelParser::getNumberOfTileLayers(const TiXmlElement & root) const
 	return tileLayerCount;
 }
 
-const int LevelParser::getNumberOfTileSets(const TiXmlElement & root) const
+const int getNumberOfTileSets(const TiXmlElement & root)
 {
 	int tileSetCount = 0;
 	const TiXmlElement& tileSetNode = *findNode(root, "tileset");
@@ -236,7 +251,7 @@ const int LevelParser::getNumberOfTileSets(const TiXmlElement & root) const
 	return tileSetCount;
 }
 
-void LevelParser::parseTileSet(const TiXmlElement & root)
+void parseTileSet(const TiXmlElement & root)
 {
 	bool continueSearching = true;
 	const TiXmlElement* tileSetNode = findNode(root, "tileset");
@@ -250,8 +265,7 @@ void LevelParser::parseTileSet(const TiXmlElement & root)
 			{
 				const std::string tileSetFileName = tileSetNode->Attribute("name");
 				const std::string tileSetSource = imgRoot->Attribute("source");
-				TextureManager& textureManager = m_sharedContext.m_textureManager;
-				textureManager.registerFilePath(tileSetFileName, imgRoot->Attribute("source"));
+				TextureManagerLocator::getTextureManager().registerFilePath(tileSetFileName, imgRoot->Attribute("source"));
 			}
 
 			sf::Vector2i pos, tileSetSize;
@@ -268,7 +282,7 @@ void LevelParser::parseTileSet(const TiXmlElement & root)
 			const int numbOfColumns = tileSetSize.y / (tileSize + spacing);
 
 			const TileSheetDetails tileSheetDetails(name, tileSize, numbOfRows, numbOfColumns, margin, spacing);
-			m_sharedContext.m_tileSheetManager.addTileSheet(m_sharedContext.m_textureManager, tileSheetDetails);
+			TileSheetManagerLocator::getTileSheetManager().addTileSheet(tileSheetDetails);
 		}
 		
 		//Change to the next tileset
@@ -283,7 +297,7 @@ void LevelParser::parseTileSet(const TiXmlElement & root)
 	}
 }
 
-void LevelParser::parseTileMap(const TiXmlElement & root, const LevelDetails & levelDetails)
+void parseTileMap(WorldMap& worldMap, const TiXmlElement & root, const LevelDetails & levelDetails)
 {
 	const int tileLayerCount = getNumberOfTileLayers(root);
 	const TiXmlElement* tileLayerNode = findNode(root, "layer"); //Get the first layer node
@@ -299,16 +313,16 @@ void LevelParser::parseTileMap(const TiXmlElement & root, const LevelDetails & l
 			if (tileLayerNode->FirstChildElement()->Value() == std::string("data") ||
 				tileLayerNode->FirstChildElement()->NextSiblingElement() != 0 && tileLayerNode->FirstChildElement()->NextSiblingElement()->Value() == std::string("data"))
 			{
-				if (!m_sharedContext.m_worldMap.hasTileLayer(tileLayerName))
+				if (!worldMap.hasTileLayer(tileLayerName))
 				{	
 					//Find correct tilesheet that corresponds with this tile layer
 					if (tileLayerNode->FirstChildElement()->Value() == std::string("properties"))
 					{
 						const TiXmlElement& tileLayerProperty = *tileLayerNode->FirstChildElement()->FirstChildElement();
 						const std::string tileSheetName = tileLayerProperty.Attribute("value");
-						const TileSheet& tileSheet = m_sharedContext.m_tileSheetManager.getTileSheet(tileSheetName);
+						const TileSheet& tileSheet = TileSheetManagerLocator::getTileSheetManager().getTileSheet(tileSheetName);
 
-						parseTileLayer(*tileLayerNode, levelDetails, tileSheet.getDetails().m_name, tileLayerName);
+						parseTileLayer(worldMap, *tileLayerNode, levelDetails, tileSheet.getDetails().m_name, tileLayerName);
 					}
 
 					////If only one tile set exists

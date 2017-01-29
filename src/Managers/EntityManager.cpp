@@ -1,24 +1,29 @@
 #include "..\..\include\Managers\EntityManager.h"
 #include "Entities\Entity.h"
+#include "Entities\EntityType.h"
 #include "Entities\Player.h"
+#include "Managers\GameManager.h"
 #include <functional>
 #include <unordered_map>
 #include <string>
 #include <algorithm>
 #include <iostream>
 #include <math.h>
+#include <sstream>
+#include <fstream>
 
 class EntityManager::EntityFactory
 {
 public:
-	EntityFactory(SharedContext* sharedContext)
+	EntityFactory(GameManager& gameManager, WorldMap& worldMap, EntityManager* entityManager)
 	{
-		registerEntity<Player>("Player", sharedContext);
+		registerEntity<Player>("Player", gameManager, worldMap, entityManager, EntityType::Player);
 	}
 
 	Entity* createEntity(const std::string& name, const sf::Vector2f& pos, const int ID) const
 	{
 		auto cIter = m_entityFactory.find(name);
+		assert(cIter != m_entityFactory.cend());
 		return cIter->second(pos, ID, name);
 	}
 
@@ -26,16 +31,13 @@ private:
 	std::unordered_map<std::string, std::function<Entity*(const sf::Vector2f& pos, const int ID, const std::string& name)>> m_entityFactory;
 
 	template <class T>
-	void registerEntity(const std::string& name, SharedContext* sharedContext)
+	void registerEntity(const std::string& name, GameManager& gameManager, WorldMap& worldMap, EntityManager* entityManager, const EntityType type)
 	{
-		if (m_entityFactory.find(name) == m_entityFactory.cend())
+		assert(m_entityFactory.find(name) == m_entityFactory.cend());
+		m_entityFactory.emplace(std::make_pair(name, [&gameManager, &worldMap, entityManager, type](const sf::Vector2f& pos, const int ID, const std::string& name) -> Entity*
 		{
-			//Player::Player(SharedContext& sharedContext, const sf::Vector2f& pos, const int ID, const std::string& name)
-			m_entityFactory.emplace(std::make_pair(name, [sharedContext](const sf::Vector2f& pos, const int ID, const std::string& name) -> Entity*
-			{
-				return new T(*sharedContext, pos, ID, name);
-			}));
-		}
+			return new T(gameManager, worldMap, *entityManager, pos, ID, name, type);
+		}));
 	}
 };
 
@@ -47,8 +49,11 @@ void EntityManager::addEntity(const std::string& name, const sf::Vector2f & pos)
 	++m_entityCount;
 }
 
-EntityManager::EntityManager(SharedContext* sharedContext)
-	: m_entityFactory(new EntityFactory(sharedContext))
+EntityManager::EntityManager(GameManager & gameManager, WorldMap & worldMap)
+	: m_entityFactory(new EntityFactory(gameManager, worldMap, this)),
+	m_removals(),
+	m_entities(),
+	m_entityCount(0)
 {
 }
 
@@ -77,19 +82,6 @@ Entity * EntityManager::getEntityAtPosition(const sf::Vector2f & pos, const int 
 
 Entity * EntityManager::getEntity(const EntityType type) const
 {
-	return nullptr;
-}
-
-const Entity* EntityManager::getPlayer() const
-{
-	for (const auto &entity : m_entities)
-	{
-		if(entity->getType() == EntityType::Player)
-		{
-			return entity;
-		}
-	}
-
 	return nullptr;
 }
 
@@ -170,3 +162,21 @@ bool EntityManager::removeActiveEntity(const int ID)
 		return false;
 	}
 }
+
+//void EntityManager::loadInEntityDetails(const std::string & fileName)
+//{
+//	std::ifstream file(fileName);
+//	assert(file.is_open());
+//
+//	std::string line;
+//	while (std::getline(file, line))
+//	{
+//		std::stringstream keyStream(line);
+//		std::string type;
+//		keyStream >> type;
+//
+//
+//
+//		if(type == )
+//	}
+//}

@@ -1,16 +1,18 @@
 #include "Managers\EventManager.h"
-#include "SharedContext.h"
+#include "Locators\EventManagerLocator.h"
 #include "Managers\StateManager.h"
 #include "Utilities.h"
 #include <algorithm>
 #include <sstream>
 #include <fstream>
-#include <assert.h>
 
-EventManager::EventManager(SharedContext & sharedContext)
-	: m_sharedContext(sharedContext)
+EventManager::EventManager(const StateManager& stateManager)
+	: m_bindings(),
+	m_callBacks(),
+	m_stateManager(stateManager)
 {
-	loadInBindings(sharedContext.m_utilities.getEventDetails());
+	EventManagerLocator::provide(*this);
+	loadInBindings();
 }
 
 void EventManager::update(const sf::Event & sfmlEvent)
@@ -42,16 +44,16 @@ void EventManager::activateCallBack(const EventDetails& details)
 	auto cIter = m_callBacks.find(details.m_name);
 	if (cIter != m_callBacks.cend())
 	{
-		if (m_sharedContext.m_stateManager.getCurrentStateType() == cIter->second.first)
+		if (m_stateManager.getCurrentStateType() == cIter->second.first)
 		{
 			cIter->second.second(details);
 		}
 	}
 }
 
-void EventManager::loadInBindings(const std::string & fileName)
+void EventManager::loadInBindings()
 {
-	std::ifstream file(fileName);
+	std::ifstream file(Utilities::getEventDetails());
 	assert(file.is_open());
 
 	std::string line;
@@ -70,6 +72,7 @@ void EventManager::loadInBindings(const std::string & fileName)
 
 		assert(registerBinding(name, keyCode, eventType));
 	}
+	int i = 0;
 }
 
 void EventManager::removeCallBack(const KeyBindingName name)
@@ -77,11 +80,11 @@ void EventManager::removeCallBack(const KeyBindingName name)
 	auto iter = std::find_if(m_callBacks.begin(), m_callBacks.end(), [name](const auto& callBack) {return callBack.first == name; });
 	if (iter != m_callBacks.cend())
 	{
-		//m_callBacks.erase(iter);
+		m_callBacks.erase(iter);
 	}
 }
 
-const bool EventManager::registerBinding(const int name, const int keyCode, const int eventType)
+bool EventManager::registerBinding(const int name, const int keyCode, const int eventType)
 {
 	if (std::find_if(m_bindings.cbegin(), m_bindings.cend(), [name](const auto& binding) {return binding.m_details.m_name == static_cast<KeyBindingName>(name); }) == m_bindings.cend())
 	{

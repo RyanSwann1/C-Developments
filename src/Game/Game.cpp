@@ -1,13 +1,14 @@
 #include "Game\Game.h"
+#include "Locators\TileSheetManagerLocator.h"
 
 Game::Game() 
-	: m_window(m_sharedContext, "Platformer!", sf::Vector2i(500, 250)),
+	: m_sharedContext(m_stateManager),
+	m_textureManager(),
+	m_window(m_stateManager),
 	m_stateManager(m_sharedContext),
-	m_worldMap(m_sharedContext),
-	m_sharedContext(m_stateManager, m_textureManager, m_worldMap, m_entityManager, m_utilities, m_tileSheetManager),
-	m_entityManager(&m_sharedContext)
+	m_time(),
+	m_clock()
 {
-	//SharedContext(StateManager& stateManager, TextureManager& textureManager, WorldMap& worldMap, EntityManager& entityManager, const Utilities& utilities, TileSheetManager& tileSheetManager)
 	m_stateManager.switchTo(StateType::Game);
 }
 

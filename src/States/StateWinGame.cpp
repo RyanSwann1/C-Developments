@@ -18,3 +18,9 @@ void StateWinGame::update(const float deltaTime)
 void StateWinGame::draw(sf::RenderWindow & window)
 {
 }
+
+void StateWinGame::onEnter()
+{
+	std::cout << "Game Won.\n";
+	std::cout << StateBase::getStateManager().getStateCount() << "\n";
+}

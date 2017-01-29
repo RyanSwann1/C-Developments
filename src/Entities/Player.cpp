@@ -2,22 +2,21 @@
 #include "Managers\EventManager.h"
 #include "Map\InteractiveTileLayer.h"
 #include "Tiles\TileType.h"
-#include "Tiles\BouncyTile.h"
 #include "Managers\GameManager.h"
 #include "Tiles\DoorTile.h"
-#include "Tiles\LockTile.h"
 #include "Map\WorldMap.h"
+#include "Locators\EventManagerLocator.h"
 #include <iostream>
 #include <assert.h>
 
-Player::Player(SharedContext& sharedContext, const sf::Vector2f& pos, const int ID, const std::string& name)
-	: Character(sharedContext, EntityType::Player, pos, ID, name),
+Player::Player(GameManager & gameManager, WorldMap & worldMap, EntityManager & entityManager, const sf::Vector2f & pos, const int ID, const std::string & name, const EntityType type)
+	: Character(gameManager, worldMap, entityManager, pos, ID, name, type),
 	m_holdingKey(false),
 	m_onClimbableObject(false),
 	m_onNextLevelTile(false),
 	m_score(0)
 {
-	EventManager& eventManager = *Entity::getSharedContext().m_eventManager;
+	EventManager& eventManager = EventManagerLocator::getEventManager();
 	eventManager.addCallBack<Player>(KeyBindingName::Move_Left, StateType::Game, &Player::reactToInput, this);
 	eventManager.addCallBack<Player>(KeyBindingName::Move_Right, StateType::Game, &Player::reactToInput, this);
 	eventManager.addCallBack<Player>(KeyBindingName::Move_Up, StateType::Game, &Player::reactToInput, this);
@@ -27,17 +26,12 @@ Player::Player(SharedContext& sharedContext, const sf::Vector2f& pos, const int 
 
 Player::~Player()
 {
-	EventManager& eventManager = *Entity::getSharedContext().m_eventManager;
+	EventManager& eventManager = EventManagerLocator::getEventManager();
 	eventManager.removeCallBack(KeyBindingName::Move_Left);
 	eventManager.removeCallBack(KeyBindingName::Move_Right);
 	eventManager.removeCallBack(KeyBindingName::Move_Up);
 	eventManager.removeCallBack(KeyBindingName::Move_Down);
 	eventManager.removeCallBack(KeyBindingName::Jump);
-}
-
-void Player::update(const float deltaTime)
-{
-	Character::update(deltaTime);
 }
 
 void Player::reactToInput(const EventDetails& eventDetails)
@@ -69,8 +63,6 @@ void Player::reactToInput(const EventDetails& eventDetails)
 		climb(Direction::Down);
 		break;
 	}
-	default:
-		break;
 	}
 }
 
@@ -97,6 +89,7 @@ void Player::onInteractiveTileCollision(InteractiveTile & tile)
 	case (TileType::Ladder) :
 	{
 		m_onClimbableObject = true;
+		Entity::setOnTile(true);
 		break;
 	}
 	case (TileType::Lock) :
@@ -112,7 +105,11 @@ void Player::onInteractiveTileCollision(InteractiveTile & tile)
 	case (TileType::Door) :
 	{
 		m_onNextLevelTile = true;
-		tile.activate(*this);
+		DoorTile& door = *static_cast<DoorTile*>(&tile);
+		if (door.isOpen())
+		{
+			Entity::getGameManager().loadNextLevel(door, *this);
+		}
 		break;
 	}
 	case (TileType::Coin) :
@@ -125,8 +122,6 @@ void Player::onInteractiveTileCollision(InteractiveTile & tile)
 		tile.activate(*this);
 		break;
 	}
-	default:
-		break;
 	}
 }
 
@@ -149,8 +144,6 @@ void Player::climb(const Direction dir)
 		Entity::moveInDirection(Direction::Down);
 		break;
 	}
-	default:
-		break;
 	}
 }
 
@@ -181,5 +174,5 @@ void Player::respawn()
 void Player::killCharacter()
 {
 	Character::killCharacter();
-	Entity::getSharedContext().m_gameManager->gameOver();
+	Entity::getGameManager().endGame();
 }

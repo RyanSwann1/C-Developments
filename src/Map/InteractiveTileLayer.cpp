@@ -1,7 +1,6 @@
 #include "Map\InteractiveTileLayer.h"
 #include "Tiles\BouncyTile.h"
 #include "Tiles\KeyTile.h"
-#include "Tiles\LadderTile.h"
 #include "Tiles\LockTile.h"
 #include "Tiles\DoorTile.h"
 #include "Tiles\CoinDispenserTile.h"
@@ -17,16 +16,18 @@
 class InteractiveTileLayer::TileFactory
 {
 public:
-	TileFactory(SharedContext& sharedContext)
+	TileFactory(InteractiveTileLayer* interactiveTileLayer)
 	{
-		registerTile<BouncyTile>(&sharedContext, "Bouncy", TileType::Bouncy);
-		registerTile<KeyTile>(&sharedContext, "Key", TileType::Key);
-		registerTile<LadderTile>(&sharedContext, "Ladder", TileType::Ladder);
-		registerTile<LockTile>(&sharedContext, "Lock", TileType::Lock);
-		registerTile<DoorTile>(&sharedContext, "Door", TileType::Door);
-		registerTile<CoinDispenserTile>(&sharedContext, "CoinDispenser", TileType::CoinDispenser);
-		registerTile<CoinTile>(&sharedContext, "Coin", TileType::Coin);
-		registerTile<MovingCoinTile>(&sharedContext, "MovingCoin", TileType::Coin);
+		//Keeping the factory method in mind 
+		//Need to make sure that every object created has the same parameters 
+		registerTile<BouncyTile>(interactiveTileLayer, "Bouncy", TileType::Bouncy);
+		registerTile<KeyTile>(interactiveTileLayer, "Key", TileType::Key);
+		registerTile<LockTile>(interactiveTileLayer, "Lock", TileType::Lock);
+		registerTile<DoorTile>(interactiveTileLayer, "Door", TileType::Door);
+		registerTile<CoinDispenserTile>(interactiveTileLayer, "CoinDispenser", TileType::CoinDispenser);
+		registerTile<CoinTile>(interactiveTileLayer, "Coin", TileType::Coin);
+		registerTile<MovingCoinTile>(interactiveTileLayer, "MovingCoin", TileType::Coin);
+		registerTile<InteractiveTile>(interactiveTileLayer, "Ladder", TileType::Ladder);
 	}
 
 	//SharedContext & sharedContext, const sf::Vector2f & pos, const std::string & name, const sf::Vector2f & mapSize, const int tileID
@@ -41,20 +42,23 @@ private:
 	std::unordered_map<std::string, std::function<InteractiveTile*(const sf::Vector2f& pos, const int tileID, const std::string& name)>> m_tiles;
 
 	template <class T>
-	void registerTile(SharedContext* sharedContext, const std::string& name, const TileType type)
+	void registerTile(InteractiveTileLayer* interactiveTileLayer, const std::string& name, const TileType type)
 	{
 		if (m_tiles.find(name) == m_tiles.cend())
 		{
-			m_tiles.emplace(std::make_pair(name, [sharedContext, type](const sf::Vector2f& pos, const int tileID, const std::string& name) -> InteractiveTile*
+			m_tiles.emplace(std::make_pair(name, [interactiveTileLayer, type](const sf::Vector2f& pos, const int tileID, const std::string& name) -> InteractiveTile*
 			{
-				return new T(*sharedContext, name, pos, tileID, type);
+				return new T(*interactiveTileLayer, name, pos, tileID, type);
 			}));
 		}
 	}
 };
 
-InteractiveTileLayer::InteractiveTileLayer(SharedContext& sharedContext)
-	: m_tileFactory(new TileFactory(sharedContext)),
+InteractiveTileLayer::InteractiveTileLayer()
+	: m_tileFactory(new TileFactory(this)),
+	m_tileMap(),
+	m_tilesToAdd(),
+	m_removals(),
 	m_tileCount(0)
 {}
 
@@ -101,6 +105,7 @@ void InteractiveTileLayer::clearMap()
 		delete i;
 		i = nullptr;
 	}
+
 	m_tileMap.clear();
 }
 
@@ -152,7 +157,6 @@ void InteractiveTileLayer::addTileToMap(const TileToAdd & tileToAdd)
 {
 	//InteractiveTile* createTile(const std::string& id, const sf::Vector2f& pos, const int tileID, const std::string& name)
 	InteractiveTile* const tile = m_tileFactory->createTile(tileToAdd.m_name, tileToAdd.m_position, m_tileCount);
-	assert(tile);
 	m_tileMap.emplace_back(tile);
 	++m_tileCount;
 }

@@ -1,12 +1,12 @@
 #include "Window\Window.h"
 
-Window::Window(SharedContext& sharedContext, const std::string & name, const sf::Vector2i & size)
+Window::Window(const StateManager& stateManager, const std::string & name, const sf::Vector2i & size)
 	: m_name(name),
 	m_defaultSize(size),
 	m_fullScreen(false),
-	m_eventManager(sharedContext)
+	m_eventManager(stateManager)
 {
-	sharedContext.m_eventManager = &m_eventManager;
+
 	setup();
 }
 

@@ -5,12 +5,12 @@
 #include <assert.h>
 #include <iostream>
 
-TileLayer::TileLayer(TileSheetManager& tileSheetManager, const TileMapData& tileMapData, const sf::Vector2i& mapSize, const std::string& name, const std::string& tileSheetName)
+TileLayer::TileLayer(const TileMapData& tileMapData, const sf::Vector2i& mapSize, const std::string& name, const std::string& tileSheetName)
 	: m_name(name),
-	m_tileMap(loadTileMap(tileSheetManager, tileMapData, mapSize, tileSheetName))
+	m_tileMap(loadTileMap(tileMapData, mapSize, tileSheetName))
 {}
 
-const std::vector<TileInfo> TileLayer::loadTileMap(TileSheetManager & tileSheetManager, const TileMapData& tileMapData, const sf::Vector2i& mapSize, const std::string& tileSheetName) const
+std::vector<TileInfo> TileLayer::loadTileMap(const TileMapData& tileMapData, const sf::Vector2i& mapSize, const std::string& tileSheetName) const
 {
 	std::vector<TileInfo> tileMap;
 	tileMap.reserve(static_cast<size_t>(mapSize.x * mapSize.y));
@@ -25,7 +25,7 @@ const std::vector<TileInfo> TileLayer::loadTileMap(TileSheetManager & tileSheetM
 				--tileID; //Not sure why I have to do this. Reading in the TILEID as an extra +1
 				const sf::Vector2i tilePosition(row, col); //Tile Position
 
-				tileMap.emplace_back(TileInfo(tileSheetManager, tileSheetName, tileID, tilePosition));
+				tileMap.emplace_back(TileInfo(tileSheetName, tileID, tilePosition));
 			}
 		}
 	}

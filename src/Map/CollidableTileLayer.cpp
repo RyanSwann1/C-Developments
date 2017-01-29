@@ -34,5 +34,4 @@ void CollidableTileLayer::assignMap(const std::vector<std::vector<int>>& tileDat
 			}
 		}
 	}
-	int i = 0;
 }
