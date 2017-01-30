@@ -56,20 +56,20 @@ void LevelManager::loadNextLevel(const DoorTile & door, const Player & player)
 
 void LevelManager::update(const float deltaTime)
 {
-	m_sharedContext.m_worldMap.update(deltaTime);
-	m_sharedContext.m_entityManager.update(deltaTime);
+	m_sharedContext.m_worldMap->update(deltaTime);
+	m_sharedContext.m_entityManager->update(deltaTime);
 }
 
 void LevelManager::draw(sf::RenderWindow & window)
 {
-	m_sharedContext.m_worldMap.draw(window);
-	m_sharedContext.m_entityManager.draw(window);
+	m_sharedContext.m_worldMap->draw(window);
+	m_sharedContext.m_entityManager->draw(window);
 }
 
 void LevelManager::purgeCurrentLevel()
 {
-	m_sharedContext.m_worldMap.purgeTileLayers();
-	m_sharedContext.m_entityManager.purgeEntities();
+	m_sharedContext.m_worldMap->purgeTileLayers();
+	m_sharedContext.m_entityManager->purgeEntities();
 }
 
 std::vector<std::string> LevelManager::loadInMapNames(const std::string & fileName) const

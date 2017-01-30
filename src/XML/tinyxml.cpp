@@ -29,7 +29,7 @@ distribution.
 #include <iostream>
 #endif
 
-#include "XML\tinyxml.h"
+#include "XML/tinyxml.h"
 
 FILE* TiXmlFOpen( const char* filename, const char* mode );
 

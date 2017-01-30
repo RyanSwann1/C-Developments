@@ -2,6 +2,8 @@
 
 #include "Tiles/InteractiveTile.h"
 
+class SharedContext;
+
 class LadderTile : public InteractiveTile
 {
 public:

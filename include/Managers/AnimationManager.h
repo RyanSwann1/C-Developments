@@ -29,5 +29,5 @@ public:
 private:
 	std::unordered_map<std::string, Animation> m_animations;
 	Animation* m_currentAnimation;
-	SharedContext m_sharedContext;
+	const SharedContext &m_sharedContext;
 };
