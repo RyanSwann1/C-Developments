@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Sprite\TileSheetDetails.h"
+#include "Sprite/TileSheetDetails.h"
 
 #include <unordered_map>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
 #include <assert.h>

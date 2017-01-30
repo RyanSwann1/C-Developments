@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Entities\Entity.h"
-#include "Entities\EntityState.h"
+#include "Entities/Entity.h"
+#include "Entities/EntityState.h"
 #include "Timer.h"
 
 class Character : public Entity

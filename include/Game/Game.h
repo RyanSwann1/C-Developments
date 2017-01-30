@@ -1,14 +1,14 @@
 #pragma once
 
 #include "SharedContext.h"
-#include "Window\Window.h"
-#include "Managers\StateManager.h"
-#include "Managers\TextureManager.h"
-#include "Managers\EntityManager.h"
-#include "Managers\TileSheetManager.h"
-#include "Map\WorldMap.h"
+#include "Window/Window.h"
+#include "Managers/StateManager.h"
+#include "Managers/TextureManager.h"
+#include "Managers/EntityManager.h"
+#include "Managers/TileSheetManager.h"
+#include "Map/WorldMap.h"
 
-#include "Managers\GameManager.h"
+#include "Managers/GameManager.h"
 #include "Utilities.h"
 
 class Game

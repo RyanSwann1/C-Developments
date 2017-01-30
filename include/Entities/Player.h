@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entities\Character.h"
+#include "Entities/Character.h"
 
 struct EventDetails;
 class Player : public Character

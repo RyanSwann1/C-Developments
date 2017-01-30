@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Parser\LevelParser.h"
+#include "Parser/LevelParser.h"
 #include "SharedContext.h"
 #include <unordered_map>
 #include <string>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <array>
 #include <vector>
 

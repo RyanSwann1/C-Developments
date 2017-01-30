@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Managers\TextureManager.h"
-#include "Map\TileSetDetails.h"
-#include "Sprite\TileSheet.h"
-#include "Managers\TileSheetManager.h"
-#include "Locators\TileSheetManagerLocator.h"
-#include <SFML\Graphics.hpp>
+#include "Managers/TextureManager.h"
+#include "Map/TileSetDetails.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TileSheetManager.h"
+#include "Locators/TileSheetManagerLocator.h"
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
 

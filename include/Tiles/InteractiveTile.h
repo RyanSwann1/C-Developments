@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Map\InteractiveTileLayer.h"
-#include "Animations\AnimationPlayer.h"
-#include "Tiles\TileType.h"
+#include "Map/InteractiveTileLayer.h"
+#include "Animations/AnimationPlayer.h"
+#include "Tiles/TileType.h"
 #include "Timer.h"
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class Player;
 class InteractiveTile

@@ -1,4 +1,4 @@
-#include "Window\Window.h"
+#include "Window/Window.h"
 
 Window::Window(const StateManager& stateManager, const std::string & name, const sf::Vector2i & size)
 	: m_name(name),

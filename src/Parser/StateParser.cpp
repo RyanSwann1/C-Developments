@@ -1,7 +1,7 @@
-#include "Parser\StateParser.h"
-#include "Managers\StateManager.h"
-#include "XML\tinyxml.h"
-#include "States\StateGame.h"
+#include "Parser/StateParser.h"
+#include "Managers/StateManager.h"
+#include "XML/tinyxml.h"
+#include "States/StateGame.h"
 
 
 StateParser::StateParser(StateManager& stateManager)

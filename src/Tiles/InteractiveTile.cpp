@@ -1,7 +1,7 @@
-#include "Tiles\InteractiveTile.h"
+#include "Tiles/InteractiveTile.h"
 #include "Utilities.h"
-#include "Entities\Player.h"
-#include "Map\WorldMap.h"
+#include "Entities/Player.h"
+#include "Map/WorldMap.h"
 #include <fstream>
 #include <sstream>
 #include <assert.h>

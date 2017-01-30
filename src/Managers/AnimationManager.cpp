@@ -1,4 +1,4 @@
-#include "Managers\AnimationManager.h"
+#include "Managers/AnimationManager.h"
 #include "Direction.h"
 #include <fstream>
 #include <sstream>

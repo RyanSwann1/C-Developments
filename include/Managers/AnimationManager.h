@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Sprite\Animation.h"
+#include "Sprite/Animation.h"
 #include "SharedContext.h"
 #include "Direction.h"
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <string>
 
@@ -29,5 +29,5 @@ public:
 private:
 	std::unordered_map<std::string, Animation> m_animations;
 	Animation* m_currentAnimation;
-	SharedContext m_sharedContext;
+	const SharedContext &m_sharedContext;
 };

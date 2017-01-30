@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Animations\AnimationDetails.h"
+#include "Animations/AnimationDetails.h"
 #include <string>
 #include <unordered_map>
 #include <vector>

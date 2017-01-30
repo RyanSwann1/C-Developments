@@ -1,5 +1,5 @@
-#include "Tiles\BouncyTile.h"
-#include "Entities\Player.h"
+#include "Tiles/BouncyTile.h"
+#include "Entities/Player.h"
 #include <fstream>
 #include <sstream>
 #include <assert.h>

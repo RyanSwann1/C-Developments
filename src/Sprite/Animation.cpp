@@ -1,6 +1,6 @@
-#include "..\..\include\Sprite\Animation.h"
-#include "Sprite\TileSheet.h"
-#include "Managers\TileSheetManager.h"
+#include "Sprite/Animation.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TileSheetManager.h"
 #include <assert.h>
 
 //Animation::Animation(TileSheetManager& tileSheetManager, const int state, const std::string& tileSheetName, const int startRow, 

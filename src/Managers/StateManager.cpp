@@ -1,8 +1,8 @@
-#include "Managers\StateManager.h"
-#include "States\StateBase.h"
-#include "States\StateGame.h"
-#include "States\StateMainMenu.h"
-#include "States\StateWinGame.h"
+#include "Managers/StateManager.h"
+#include "States/StateBase.h"
+#include "States/StateGame.h"
+#include "States/StateMainMenu.h"
+#include "States/StateWinGame.h"
 #include <assert.h>
 #include <algorithm>
 #include <unordered_map>

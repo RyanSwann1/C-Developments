@@ -1,6 +1,6 @@
-#include "Tiles\CoinTile.h"
-#include "Entities\Player.h"
-#include "Map\WorldMap.h"
+#include "Tiles/CoinTile.h"
+#include "Entities/Player.h"
+#include "Map/WorldMap.h"
 #include "Utilities.h"
 #include <fstream>
 #include <sstream>

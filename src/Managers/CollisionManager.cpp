@@ -1,10 +1,10 @@
-#include "Managers\CollisionManager.h"
-#include "Map\WorldMap.h"
-#include "Entities\Entity.h"
-#include "Map\MapDetails.h"
+#include "Managers/CollisionManager.h"
+#include "Map/WorldMap.h"
+#include "Entities/Entity.h"
+#include "Map/MapDetails.h"
 #include "CollisionElement.h"
-#include "Managers\EntityManager.h"
-#include "Tiles\InteractiveTile.h"
+#include "Managers/EntityManager.h"
+#include "Tiles/InteractiveTile.h"
 #include <vector>
 #include <math.h>
 #include <algorithm>
@@ -135,13 +135,13 @@ bool checkForCollision(const sf::Vector2f& entityPos, const sf::Vector2f& tilePo
 }
 
 
-//#include "Managers\CollisionManager.h"
-//#include "Game\Map.h"
-//#include "Entities\Entity.h"
-//#include "Managers\EntityManager.h"
+//#include "Managers/CollisionManager.h"
+//#include "Game/Map.h"
+//#include "Entities/Entity.h"
+//#include "Managers/EntityManager.h"
 //#include <math.h>
 //#include <iostream>
-//#include <SFML\Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 //
 //CollisionManager::CollisionManager(const SharedContext& sharedContext)
 //	: m_sharedContext(sharedContext)

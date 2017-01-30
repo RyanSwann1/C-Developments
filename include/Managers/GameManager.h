@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Managers\StateManager.h"
-#include "Managers\EntityManager.h"
-#include "Map\WorldMap.h"
-#include <SFML\Graphics.hpp>
+#include "Managers/StateManager.h"
+#include "Managers/EntityManager.h"
+#include "Map/WorldMap.h"
+#include <SFML/Graphics.hpp>
 class Player;
 class DoorTile;
 class GameManager

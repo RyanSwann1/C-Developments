@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Events\EventType.h"
-#include "Events\EventDetails.h"
+#include "Events/EventType.h"
+#include "Events/EventDetails.h"
 #include <string>
 
 struct Binding

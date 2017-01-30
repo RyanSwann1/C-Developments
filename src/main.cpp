@@ -1,6 +1,6 @@
 //https://semidtor.wordpress.com/2013/03/29/rapidxml-mini-tutorial/
 //https://thebojan.ninja/2015/04/08/high-cohesion-loose-coupling/
-#include "Game\Game.h"
+#include "Game/Game.h"
 
 int main()
 {

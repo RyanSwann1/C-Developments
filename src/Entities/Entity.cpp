@@ -1,9 +1,9 @@
-#include "Entities\Entity.h"
-#include "Map\WorldMap.h"
+#include "Entities/Entity.h"
+#include "Map/WorldMap.h"
 #include "Utilities.h"
 #include "CollisionElement.h"
-#include "Managers\CollisionManager.h"
-#include "Managers\TileSheetManager.h"
+#include "Managers/CollisionManager.h"
+#include "Managers/TileSheetManager.h"
 #include <math.h>
 #include <fstream>
 #include <sstream>
