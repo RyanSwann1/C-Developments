@@ -1,5 +1,5 @@
-#include "Managers\TileSheetManager.h"
-#include "Locators\TileSheetManagerLocator.h"
+#include "Managers/TileSheetManager.h"
+#include "Locators/TileSheetManagerLocator.h"
 #include <assert.h>
 
 TileSheetManager::TileSheetManager()

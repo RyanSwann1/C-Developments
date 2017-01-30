@@ -1,6 +1,6 @@
-#include "Animations\AnimationPlayer.h"
-#include "Managers\TileSheetManager.h"
-#include "Locators\TileSheetManagerLocator.h"
+#include "Animations/AnimationPlayer.h"
+#include "Managers/TileSheetManager.h"
+#include "Locators/TileSheetManagerLocator.h"
 #include "Direction.h"
 #include "Utilities.h"
 #include <assert.h>

@@ -1,6 +1,6 @@
-#include "Entities\Character.h"
+#include "Entities/Character.h"
 #include "Utilities.h"
-#include "Map\WorldMap.h"
+#include "Map/WorldMap.h"
 #include <math.h>
 #include <fstream>
 #include <sstream>

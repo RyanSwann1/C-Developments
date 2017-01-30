@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Sprite\Animation.h"
+#include "Sprite/Animation.h"
 #include "SharedContext.h"
 #include "Direction.h"
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <string>
 

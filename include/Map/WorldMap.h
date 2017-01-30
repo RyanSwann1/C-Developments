@@ -1,13 +1,13 @@
 #pragma once
 
 #include "SharedContext.h"
-#include "Map\TileLayer.h"
-#include "Map\InteractiveTileLayer.h"
-#include "Map\CollidableTileLayer.h"
+#include "Map/TileLayer.h"
+#include "Map/InteractiveTileLayer.h"
+#include "Map/CollidableTileLayer.h"
 #include "MapDetails.h"
 #include <vector>
 #include <unordered_map>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class WorldMap
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "Entities\Entity.h"
+#include "Entities/Entity.h"
 class PowerUp :
 	public Entity
 {

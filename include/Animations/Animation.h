@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Entities\EntityState.h"
-#include <SFML\Graphics.hpp>
+#include "Entities/EntityState.h"
+#include <SFML/Graphics.hpp>
 #include <string>
 
 struct AnimationDetails;

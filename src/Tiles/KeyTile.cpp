@@ -1,8 +1,8 @@
-#include "Tiles\KeyTile.h"
-#include "Managers\EntityManager.h"
-#include "Entities\Player.h"
+#include "Tiles/KeyTile.h"
+#include "Managers/EntityManager.h"
+#include "Entities/Player.h"
 #include "Utilities.h"
-#include "Map\WorldMap.h"
+#include "Map/WorldMap.h"
 #include <fstream>
 #include <sstream>
 #include <assert.h>

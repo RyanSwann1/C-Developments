@@ -1,4 +1,4 @@
-#include "States\StateWinGame.h"
+#include "States/StateWinGame.h"
 #include <iostream>
 
 StateWinGame::StateWinGame(StateManager& stateManager, const StateType type)

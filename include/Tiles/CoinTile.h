@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tiles\InteractiveTile.h"
+#include "Tiles/InteractiveTile.h"
 #include "Direction.h"
 
 class CoinTile :

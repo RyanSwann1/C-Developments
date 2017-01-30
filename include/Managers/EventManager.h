@@ -1,15 +1,15 @@
 #pragma once
 
 
-#include "Events\Binding.h"
-#include "Managers\StateManager.h"
-#include "States\StateType.h"
+#include "Events/Binding.h"
+#include "Managers/StateManager.h"
+#include "States/StateType.h"
 #include <vector>
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
-#include <SFML\System.hpp>
-#include <SFML\Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #include <assert.h>
 
 using CallBack = std::pair<StateType, std::function<void(const EventDetails&)>>;

@@ -1,5 +1,5 @@
-#include "Game\Game.h"
-#include "Locators\TileSheetManagerLocator.h"
+#include "Game/Game.h"
+#include "Locators/TileSheetManagerLocator.h"
 
 Game::Game() 
 	: m_sharedContext(m_stateManager),

@@ -1,12 +1,12 @@
-#include "Sprite\TileSheet.h"
-#include "Managers\TextureManager.h"
-#include "Locators\TextureManagerLocator.h"
-#include "Map\WorldMap.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TextureManager.h"
+#include "Locators/TextureManagerLocator.h"
+#include "Map/WorldMap.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <assert.h>
-#include "..\..\include\Sprite\TileSheet.h"
+#include "../../include/Sprite/TileSheet.h"
 
 TileSheet::TileSheet(const TileSheetDetails& details)
 	: m_details(details)

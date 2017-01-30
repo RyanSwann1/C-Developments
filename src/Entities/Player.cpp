@@ -1,11 +1,11 @@
-#include "Entities\Player.h"
-#include "Managers\EventManager.h"
-#include "Map\InteractiveTileLayer.h"
-#include "Tiles\TileType.h"
-#include "Managers\GameManager.h"
-#include "Tiles\DoorTile.h"
-#include "Map\WorldMap.h"
-#include "Locators\EventManagerLocator.h"
+#include "Entities/Player.h"
+#include "Managers/EventManager.h"
+#include "Map/InteractiveTileLayer.h"
+#include "Tiles/TileType.h"
+#include "Managers/GameManager.h"
+#include "Tiles/DoorTile.h"
+#include "Map/WorldMap.h"
+#include "Locators/EventManagerLocator.h"
 #include <iostream>
 #include <assert.h>
 

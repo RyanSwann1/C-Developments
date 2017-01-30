@@ -1,9 +1,9 @@
 #include "Managers/LevelManager.h"
-#include "Managers\EntityManager.h"
-#include "Map\WorldMap.h"
-#include "Managers\GameManager.h"
-#include "Tiles\DoorTile.h"
-#include "Entities\Player.h"
+#include "Managers/EntityManager.h"
+#include "Map/WorldMap.h"
+#include "Managers/GameManager.h"
+#include "Tiles/DoorTile.h"
+#include "Entities/Player.h"
 #include <algorithm>
 #include <iostream>
 #include <assert.h>

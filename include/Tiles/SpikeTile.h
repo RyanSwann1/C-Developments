@@ -1,5 +1,5 @@
 #pragma once
-#include "Tiles\InteractiveTile.h"
+#include "Tiles/InteractiveTile.h"
 #include "Timer.h"
 class SpikeTile :
 	public InteractiveTile

@@ -1,9 +1,9 @@
-#include "Animations\Animation.h"
-#include "Sprite\TileSheet.h"
-#include "Managers\TileSheetManager.h"
-#include "Locators\TileSheetManagerLocator.h"
+#include "Animations/Animation.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TileSheetManager.h"
+#include "Locators/TileSheetManagerLocator.h"
 #include <assert.h>
-#include "Animations\AnimationDetails.h"
+#include "Animations/AnimationDetails.h"
 
 Animation::Animation(const AnimationDetails & details)
 	: m_name(details.m_name),

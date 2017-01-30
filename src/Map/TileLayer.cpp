@@ -1,6 +1,6 @@
-#include "Map\TileLayer.h"
-#include "Map\WorldMap.h"
-#include "Sprite\TileSheet.h"
+#include "Map/TileLayer.h"
+#include "Map/WorldMap.h"
+#include "Sprite/TileSheet.h"
 #include "Maths.h"
 #include <assert.h>
 #include <iostream>

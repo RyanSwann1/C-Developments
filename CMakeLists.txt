@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.5)
+add_executable(game 
+  src/Managers/TileSheetManager.cpp
+  src/Managers/EntityManager.cpp
+  src/Managers/StateManager.cpp
+  src/Managers/GameManager.cpp
+  src/Managers/CollisionManager.cpp
+  src/Managers/EventManager.cpp
+  src/Managers/AnimationManager.cpp
+  src/Managers/LevelManager.cpp
+  src/Timer.cpp
+  src/Window/Window.cpp
+  src/Map/TileLayer.cpp
+  src/Map/InteractiveTileLayer.cpp
+  src/Map/WorldMap.cpp
+  src/Map/CollidableTileLayer.cpp
+  src/Locators/TileSheetManagerLocator.cpp
+  src/Locators/TextureManagerLocator.cpp
+  src/Locators/EventManagerLocator.cpp
+  src/States/StateWinGame.cpp
+  src/States/StateGame.cpp
+  src/States/StateMainMenu.cpp
+  src/Utilities.cpp
+  src/main.cpp
+  src/Game/Game.cpp
+  src/Tiles/InteractiveTile.cpp
+  src/Tiles/MovingCoinTile.cpp
+  src/Tiles/CoinTile.cpp
+  src/Tiles/CoinDispenserTile.cpp
+  src/Tiles/LockTile.cpp
+  src/Tiles/LadderTile.cpp
+  src/Tiles/SpikeTile.cpp
+  src/Tiles/DoorTile.cpp
+  src/Tiles/BouncyTile.cpp
+  src/Tiles/KeyTile.cpp
+  src/Parser/StateParser.cpp
+  src/Parser/LevelParser.cpp
+  src/Animations/AnimationPlayer.cpp
+  src/Animations/Animation.cpp
+  src/Sprite/Animation.cpp
+  src/Sprite/TileSheet.cpp
+  src/Entities/Entity.cpp
+  src/Entities/Character.cpp
+  src/Entities/Player.cpp
+  src/Entities/PowerUp.cpp
+  src/XML/tinyxmlerror.cpp
+  src/XML/tinyxmlparser.cpp
+  src/XML/tinystr.cpp
+  src/XML/tinyxml.cpp
+  src/Base64.cpp
+)
+
+target_include_directories(game
+  PUBLIC
+    include
+)

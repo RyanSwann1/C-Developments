@@ -1,7 +1,7 @@
-#include "Managers\GameManager.h"
-#include "Tiles\DoorTile.h"
-#include "Entities\Player.h"
-#include "Parser\LevelParser.h"
+#include "Managers/GameManager.h"
+#include "Tiles/DoorTile.h"
+#include "Entities/Player.h"
+#include "Parser/LevelParser.h"
 #include "Utilities.h"
 #include <sstream>
 #include <fstream>

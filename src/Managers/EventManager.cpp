@@ -1,6 +1,6 @@
-#include "Managers\EventManager.h"
-#include "Locators\EventManagerLocator.h"
-#include "Managers\StateManager.h"
+#include "Managers/EventManager.h"
+#include "Locators/EventManagerLocator.h"
+#include "Managers/StateManager.h"
 #include "Utilities.h"
 #include <algorithm>
 #include <sstream>
