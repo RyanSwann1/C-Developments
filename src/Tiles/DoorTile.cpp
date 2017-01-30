@@ -1,5 +1,5 @@
 #include "Tiles/InteractiveTile.h"
-#include "../../include/Tiles/DoorTile.h"
+#include "Tiles/DoorTile.h"
 #include "Direction.h"
 #include "Managers/GameManager.h"
 #include "Entities/Player.h"

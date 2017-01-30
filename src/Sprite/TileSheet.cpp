@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <assert.h>
-#include "../../include/Sprite/TileSheet.h"
+#include "Sprite/TileSheet.h"
 
 TileSheet::TileSheet(const TileSheetDetails& details)
 	: m_details(details)

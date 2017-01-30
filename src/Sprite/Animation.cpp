@@ -1,4 +1,4 @@
-#include "../../include/Sprite/Animation.h"
+#include "Sprite/Animation.h"
 #include "Sprite/TileSheet.h"
 #include "Managers/TileSheetManager.h"
 #include <assert.h>

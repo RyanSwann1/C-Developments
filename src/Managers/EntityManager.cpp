@@ -1,4 +1,4 @@
-#include "../../include/Managers/EntityManager.h"
+#include "Managers/EntityManager.h"
 #include "Entities/Entity.h"
 #include "Entities/EntityType.h"
 #include "Entities/Player.h"
