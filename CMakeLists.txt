@@ -6,8 +6,8 @@ add_executable(game
   src/Managers/GameManager.cpp
   src/Managers/CollisionManager.cpp
   src/Managers/EventManager.cpp
-  src/Managers/AnimationManager.cpp
-  src/Managers/LevelManager.cpp
+#  src/Managers/AnimationManager.cpp
+#  src/Managers/LevelManager.cpp
   src/Timer.cpp
   src/Window/Window.cpp
   src/Map/TileLayer.cpp
@@ -28,7 +28,7 @@ add_executable(game
   src/Tiles/CoinTile.cpp
   src/Tiles/CoinDispenserTile.cpp
   src/Tiles/LockTile.cpp
-  src/Tiles/LadderTile.cpp
+#  src/Tiles/LadderTile.cpp
   src/Tiles/SpikeTile.cpp
   src/Tiles/DoorTile.cpp
   src/Tiles/BouncyTile.cpp
@@ -37,12 +37,12 @@ add_executable(game
   src/Parser/LevelParser.cpp
   src/Animations/AnimationPlayer.cpp
   src/Animations/Animation.cpp
-  src/Sprite/Animation.cpp
+#  src/Sprite/Animation.cpp
   src/Sprite/TileSheet.cpp
   src/Entities/Entity.cpp
   src/Entities/Character.cpp
   src/Entities/Player.cpp
-  src/Entities/PowerUp.cpp
+#  src/Entities/PowerUp.cpp
   src/XML/tinyxmlerror.cpp
   src/XML/tinyxmlparser.cpp
   src/XML/tinystr.cpp
@@ -50,7 +50,15 @@ add_executable(game
   src/Base64.cpp
 )
 
+target_link_libraries(game
+  PRIVATE
+    sfml-graphics
+    sfml-window
+    sfml-system
+    z
+)
+
 target_include_directories(game
-  PUBLIC
+  PRIVATE
     include
 )
