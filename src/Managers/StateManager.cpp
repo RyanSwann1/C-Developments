@@ -27,7 +27,7 @@ public:
 	}
 
 private:
-	std::unordered_map<StateType, std::function<StateBase*()>> m_stateFactory;
+    std::unordered_map<StateType, std::function<StateBase*()>, Utilities::EnumClassHash> m_stateFactory;
 
 	template <class T>
 	void registerState(StateManager* stateManager, const StateType stateType)

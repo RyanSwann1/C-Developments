@@ -2,6 +2,7 @@
 
 #include "States/StateType.h"
 #include "SharedContext.h"
+#include "Utilities.h"
 #include <vector>
 #include <SFML/Graphics.hpp>
 
