@@ -48,17 +48,21 @@ add_executable(game
   src/Base64.cpp
 )
 
+# Change this to your local SFML install path (would be nice to have SFML as submodule)
+set(SFML_INSTALL_PATH "${CMAKE_SOURCE_DIR}/../sfml/install")
+
+set(CMAKE_MODULE_PATH "${SFML_INSTALL_PATH}/cmake/Modules" ${CMAKE_MODULE_PATH})
+set(SFML_ROOT ${SFML_INSTALL_PATH})
+find_package(SFML 2 REQUIRED system window graphics)
+
 target_link_libraries(game
   PRIVATE
-    sfml-graphics 
-    sfml-window 
-    sfml-system
+    ${SFML_LIBRARIES}
     z
 )
 
 target_include_directories(game
   PRIVATE
-    include
+    ${SFML_INSTALL_PATH}/../include
+    ${CMAKE_SOURCE_DIR}/include
 )
-
-
