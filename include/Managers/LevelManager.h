@@ -18,7 +18,6 @@ public:
 
 	inline bool levelsToComplete() const { return m_currentMapID < m_mapNames.size(); }
 
-	//void changeLevel();
 	void loadNextLevel(const DoorTile& door, const Player& player);
 
 	void update(const float deltaTime);

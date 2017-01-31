@@ -40,13 +40,6 @@ private:
 	}
 };
 
-//const StateFactory* const m_stateFactory;
-//std::vector<StateBase*> m_states;
-//std::vector<StateType> m_statesToRemove;
-//std::vector<StateType> m_statesToAdd;
-//StateBase* m_currentState;
-//SharedContext& m_sharedContext;
-
 StateManager::StateManager(SharedContext & sharedContext)
 	: m_stateFactory(new StateFactory(this)),
 	m_states(),
@@ -105,7 +98,6 @@ void StateManager::removeState(const StateType stateType)
 
 void StateManager::update(const float deltaTime)
 {
-	//auto statesCopy = m_states;
 	for (auto &i : m_states)
 	{
 		i->update(deltaTime);

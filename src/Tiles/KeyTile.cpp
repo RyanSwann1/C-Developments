@@ -21,18 +21,6 @@ void KeyTile::update(const float deltaTime)
 		assert(m_player);
 		InteractiveTile::moveToPosition(m_player->getPosition());
 	}
-
-	//if (InteractiveTile::isActive())
-	//{
-	//	const Player* const player = static_cast<const Player*>(InteractiveTile::getSharedContext().m_entityManager.getPlayer());
-	//	assert(player);
-	//	InteractiveTile::setPosition(player->getPosition());
-	//	//If player is no longer due to unlocking of door
-	//	if (!player->isHoldingKey())
-	//	{
-	//		InteractiveTile::disable();
-	//	}
-	//}
 }
 
 void KeyTile::activate(Player& player)

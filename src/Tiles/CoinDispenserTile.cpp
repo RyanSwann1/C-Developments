@@ -15,7 +15,6 @@ void CoinDispenserTile::activate(Player & player)
 	{
 		InteractiveTile::getInteractiveTileLayer().addTile(InteractiveTile::getPosition(), "MovingCoin");
 		InteractiveTile::getAnimationPlayer().setCurrentAnimation("CoinSpawned");
-		//InteractiveTile::getAnimationPlayer().setPosition(InteractiveTile::getPosition());
 		player.increaseScore(1);
 		m_coinSpawned = true;
 	}

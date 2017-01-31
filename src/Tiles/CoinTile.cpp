@@ -16,21 +16,6 @@ CoinTile::CoinTile(InteractiveTileLayer& interactiveTileLayer, const std::string
 void CoinTile::update(const float deltaTime)
 {
 	InteractiveTile::update(deltaTime);
-
-	//if (!m_playerScoreIncreased && m_movementTimer.isActive())
-	//{
-	//	move(deltaTime);
-	//	//Destroy this when timer is expired
-	//	if (m_movementTimer.isExpired())
-	//	{
-	//		InteractiveTileLayer& tileLayer = InteractiveTile::getSharedContext().m_worldMap.getInteractiveTileLayer();
-	//		tileLayer.removeTile(InteractiveTile::getID());
-	//	}
-	//}
-	//else if (m_playerScoreIncreased)
-	//{
-	//	
-	//}
 }
 
 void CoinTile::activate(Player & player)

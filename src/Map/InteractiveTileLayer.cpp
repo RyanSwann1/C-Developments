@@ -30,7 +30,6 @@ public:
 		registerTile<InteractiveTile>(interactiveTileLayer, "Ladder", TileType::Ladder);
 	}
 
-	//SharedContext & sharedContext, const sf::Vector2f & pos, const std::string & name, const sf::Vector2f & mapSize, const int tileID
 	InteractiveTile* createTile(const std::string& name, const sf::Vector2f& pos, const int tileID) const
 	{
 		auto cIter = m_tiles.find(name);
@@ -155,7 +154,6 @@ bool InteractiveTileLayer::removeActiveTile(const int ID)
 
 void InteractiveTileLayer::addTileToMap(const TileToAdd & tileToAdd)
 {
-	//InteractiveTile* createTile(const std::string& id, const sf::Vector2f& pos, const int tileID, const std::string& name)
 	InteractiveTile* const tile = m_tileFactory->createTile(tileToAdd.m_name, tileToAdd.m_position, m_tileCount);
 	m_tileMap.emplace_back(tile);
 	++m_tileCount;
@@ -174,15 +172,4 @@ InteractiveTile * InteractiveTileLayer::getTile(const TileType type) const
 	return nullptr;
 }
 
-//InteractiveTile* const InteractiveTileLayer::getTile(const TileType type)
-//{
-//	for (auto &tile : m_tileMap)
-//	{
-//		if (tile->getType() == type)
-//		{
-//			return tile;
-//		}
-//	}
-//
-//	return nullptr;
-//}
+

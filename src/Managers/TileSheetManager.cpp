@@ -19,8 +19,6 @@ TileSheet& TileSheetManager::getTileSheet(const std::string& name)
 
 void TileSheetManager::addTileSheet(const TileSheetDetails& tileSheetDetails)
 {
-	//assert(m_tileSheets.emplace(std::make_pair(tileSheetDetails.m_name, TileSheet(textureManager, tileSheetDetails)).second
-
 	if (m_tileSheets.find(tileSheetDetails.m_name) == m_tileSheets.cend())
 	{
 		m_tileSheets.emplace(std::make_pair(tileSheetDetails.m_name, TileSheet(tileSheetDetails)));

@@ -12,8 +12,6 @@ StateParser::StateParser(StateManager& stateManager)
 
 void StateParser::parseStates()
 {
-
-	//m_stateManager->registerState<StateGame>(StateType::Game);
 }
 
 void StateParser::registerState(const std::string & stateName)

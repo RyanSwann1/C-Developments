@@ -26,7 +26,6 @@ public:
 		if (m_callBacks.find(name) == m_callBacks.cend())
 		{
 			auto callBack = std::bind(fp, instance, _1);
-			//auto callBack = std::make_pair(type, std::bind(fp, instance, _1));
 			assert(m_callBacks.emplace(name, std::make_pair(type, callBack)).second);
 		}
 	}

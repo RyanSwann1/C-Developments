@@ -6,9 +6,6 @@
 #include <string>
 #include <vector>
 
-//LevelManager& levelManager, GameManager& gameManager, WorldMap& worldMap, 
-//EntityManager& entityManager, TileSheetManager& tileSheetManager, const Utilities& utilities, const AnimationManager& animationManager
-
 enum class EntityType;
 class GameManager;
 class WorldMap;
@@ -25,7 +22,6 @@ public:
 	int getSize() const { return m_entities.size(); }
 	Entity* getEntityAtPosition(const sf::Vector2f& pos, const int tileSize) const;
 	Entity* getEntity(const EntityType type) const;
-	//const Entity* getPlayer() const;
 
 	void addEntity(const std::string& name, const sf::Vector2f& pos);
 
@@ -44,5 +40,4 @@ private:
 
 	void processRemovals();
 	bool removeActiveEntity(const int ID);
-	//void loadInEntityDetails(const std::string & fileName);
 };

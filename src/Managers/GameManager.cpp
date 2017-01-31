@@ -39,7 +39,6 @@ void GameManager::winGame()
 	{
 		m_stateManager.switchTo(StateType::Win);
 		m_stateManager.removeState(StateType::Game);
-		//http://moonstoneequation.com/a-warning-to-others/
 	}
 }
 

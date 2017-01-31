@@ -13,19 +13,6 @@ void BouncyTile::update(const float deltaTime)
 {
 	InteractiveTile::getActivationTimer().update(deltaTime);
 	InteractiveTile::getAnimationPlayer().update(deltaTime);
-
-	//if (InteractiveTile::isActive())
-	//{
-	//	if (animation && animation->isActive())
-	//	{
-	//		animation->update(deltaTime);
-	//		if (animation->isFinished())
-	//		{
-	//			animation->stop();
-	//			InteractiveTile::disable();
-	//		}
-	//	}
-	//}
 }
 
 void BouncyTile::activate(Player& player)
