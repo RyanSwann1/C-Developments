@@ -13,9 +13,6 @@ public:
 	AnimationPlayer(const std::string& ownerName);
 	~AnimationPlayer();
 
-	//void setAnimationType(const std::string& name, const Direction dir = Direction::None);
-	//void setAnimationType(const std::string& name, const Direction dir, const sf::Vector2f& pos);
-
 	const std::string& getCurrentAnimationName() const;
 
 	bool isAnimationFinished() const;

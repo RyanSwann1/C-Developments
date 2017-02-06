@@ -7,20 +7,6 @@
 #include <assert.h>
 #include <iostream>
 
-//Character::Character(SharedContext& sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name)
-//	: Entity(sharedContext, type, pos, ID, name),
-//	m_maxLives(0),
-//	m_lives(0),
-//	m_damage(0),
-//	m_hurtTime(0),
-//	m_jumpTime(0),
-//	m_doubleJumpTime(0),
-//	m_jumpVelocity(0),
-//	m_jumpReady(true)
-//{
-//	loadInCharacterDetails();
-//}
-
 Character::Character(GameManager & gameManager, WorldMap & worldMap, EntityManager & entityManager, const sf::Vector2f & pos, const int ID, const std::string & name, const EntityType type)
 	: Entity(gameManager, worldMap, entityManager, pos, ID, name, type),
 	m_jumpingTimer(),
@@ -72,8 +58,6 @@ void Character::handleTileCollisions(const std::vector<CollisionElement*>& colli
 
 void Character::determineAnimationType()
 {
-	//AnimationPlayer& animationPlayer = Entity::getAnimationPlayer();
-	//const Direction dir = Entity::getCurrentDirection();
 	switch (m_state)
 	{
 	case EntityState::Idling :
@@ -169,15 +153,9 @@ void Character::reduceLife()
 	{ 
 		m_lives = 0;
 		killCharacter();
-		
-		//m_velocity.x = 0;
-		//setState(EntityState::Dead);
-		//m_spriteSheet.setAnimationType("Dead", m_currentDirection);	
 	}
 	else
 	{
-		//getSpriteSheet().setAnimationType(AnimationName::Hurt, getDirection());
-		//getAudioPlayer().play("Hurt", false);
 		setState(EntityState::Hurt);
 		m_hurtTimer.activate();
 		Entity::setVelocity(0, 0);
@@ -189,7 +167,6 @@ void Character::jump()
 	if (m_jumpReady && m_currentState != EntityState::Dead)
 	{
 		std::cout << "Hi";
-		//getAudioPlayer().play("Jump", false);
 		m_jumpReady = false;
 		m_jumpingTimer.activate();
 	}
@@ -210,8 +187,6 @@ void Character::killCharacter()
 	{
 		setState(EntityState::Dead);
 		Entity::setVelocity(0, 0);
-		//getAudioPlayer().play("Hurt", false);
-		//getSpriteSheet().setAnimationType(AnimationName::Dead, getDirection());s
 	}
 }
 void Character::handleTimers(const float deltaTime)
@@ -267,8 +242,5 @@ void Character::attack()
 	}
 
 	setState(EntityState::Attacking);
-	//getSpriteSheet().setAnimationType(AnimationName::Attack, getDirection());
-	//getAudioPlayer().play("Attack", false);
 	stop();
-	//m_attackManager.startAttack(*this);
 }

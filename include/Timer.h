@@ -12,7 +12,6 @@ public:
 	void activate();
 	inline bool isFinished() const { return m_isFinished; }
 
-	//inline void resetTime() { m_timeElasped = 0; }
 	void update(const float elaspedTime);
 	void deactivate();	
 	inline bool isActive() const { return m_isActive; }

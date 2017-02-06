@@ -47,6 +47,4 @@ private:
 	float m_movementSpeed;
 	sf::RectangleShape m_shape;
 	sf::Vector2f m_position;
-
-	//void loadInDetails();
 };

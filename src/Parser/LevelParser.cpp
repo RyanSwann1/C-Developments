@@ -68,8 +68,6 @@ void parseLevel(GameManager& gameManager, WorldMap& worldMap, EntityManager& ent
 	parseCollidableLayer(worldMap, rootNode, levelDetails);
 	parseInteractiveTiles(worldMap, rootNode, levelDetails);
 
-	//std::cout << textureManager.getResourceCount("kenney_16x16") << "\n";
-	
 	//Load in objects
 	parseObjects(entityManager, rootNode);
 	
@@ -119,14 +117,11 @@ void parseInteractiveTiles(WorldMap& worldMap, const TiXmlElement & root, const 
 	{
 		assert(e->Attribute("name"));
 		const std::string name(e->Attribute("name"));
-		int xPos = 0, yPos = 0, ID = 0;
+		int xPos = 0, yPos = 0;
 		e->Attribute("x", &xPos);
 		e->Attribute("y", &yPos);
-		//e->Attribute("id", &ID);
 
-		//std::cout << type << "\n";
 		worldMap.getInteractiveTileLayer().addTile(sf::Vector2f(xPos, yPos), name);
-		//m_sharedContext.m_worldMap.getInteractiveTileLayer().addTile(m_sharedContext, sf::Vector2f(xPos, yPos), type, sf::Vector2f(levelDetails.m_mapSize.x, levelDetails.m_mapSize.y));
 	}
 }
 
@@ -324,28 +319,6 @@ void parseTileMap(WorldMap& worldMap, const TiXmlElement & root, const LevelDeta
 
 						parseTileLayer(worldMap, *tileLayerNode, levelDetails, tileSheet.getDetails().m_name, tileLayerName);
 					}
-
-					////If only one tile set exists
-					//if (tileSets.size() == static_cast<size_t>(1))
-					//{
-					//	std::cout << tileLayerName << "\n";
-					//	parseTileLayer(*tileLayerNode, levelDetails, *tileSets.begin(), tileLayerName);
-					//}
-					////If more than one tile set exists
-					//else
-					//{
-					//	if (tileLayerNode->FirstChildElement()->Value() == std::string("properties"))
-					//	{
-					//		const TiXmlElement& tileLayerProperty = *tileLayerNode->FirstChildElement()->FirstChildElement();
-					//		const std::string tileSetName = tileLayerProperty.Attribute("value");
-					//		auto cIter = std::find_if(tileSets.cbegin(), tileSets.cend(), [tileSetName](const TileSetDetails& tileSetDetails) {return tileSetDetails.m_name == tileSetName; });
-					//		if (cIter != tileSets.cend())
-					//		{
-					//			std::cout << "Tile Layer " << i << "\n";
-					//			parseTileLayer(*tileLayerNode, levelDetails, *cIter->, tileLayerName);
-					//		}
-					//	}
-					//}
 				}
 			}
 		}

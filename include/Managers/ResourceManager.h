@@ -9,10 +9,6 @@ using ResourceCount = unsigned int;
 using FileName = std::string;
 using FilePath = std::string;
 
-//hexadecimal numbers
-//https://www.dropbox.com/s/qe0688gbpum5ue9/Screenshot%202016-10-05%2021.18.40.png?dl=0
-//https://www.dropbox.com/s/t7zj5s4idk6h0tn/Screenshot%202016-10-05%2021.46.07.png?dl=0
-
 template <class T>
 class ResourceManager
 {
@@ -23,10 +19,8 @@ public:
 		purgeResources();
 	}
 
-	//Disallow copying of this class
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator=(const ResourceManager&) = delete;
-
 
 	//Change how the user gets the resource.
 	//Shouldnt require two method calls

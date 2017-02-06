@@ -26,6 +26,5 @@ public:
 private:
 
 	const std::vector<TileInfo> m_tileMap;
-	//const std::vector<std::pair<int, TileInfo>> m_tileMap;
 	const std::string m_name;
 };

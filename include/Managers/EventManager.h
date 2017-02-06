@@ -4,6 +4,7 @@
 #include "Events/Binding.h"
 #include "Managers/StateManager.h"
 #include "States/StateType.h"
+#include "Utilities.h"
 #include <vector>
 #include <algorithm>
 #include <functional>
@@ -26,7 +27,6 @@ public:
 		if (m_callBacks.find(name) == m_callBacks.cend())
 		{
 			auto callBack = std::bind(fp, instance, _1);
-			//auto callBack = std::make_pair(type, std::bind(fp, instance, _1));
 			assert(m_callBacks.emplace(name, std::make_pair(type, callBack)).second);
 		}
 	}
@@ -38,7 +38,7 @@ public:
 
 private:
 	std::vector<Binding> m_bindings;
-	std::unordered_map<KeyBindingName, CallBack> m_callBacks;
+        std::unordered_map<KeyBindingName, CallBack, Utilities::EnumClassHash> m_callBacks;
 	const StateManager& m_stateManager;
 	
 	bool registerBinding(const int name, const int keyCode, const int eventType);

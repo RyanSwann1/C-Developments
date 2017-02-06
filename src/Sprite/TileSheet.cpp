@@ -55,9 +55,6 @@ sf::IntRect TileSheet::getTileLocationByID(const int ID) const
 	return sf::IntRect((margin + ((spacing + tileSize) * row)),
 		(margin + ((spacing + tileSize) * col)),
 			tileSize, tileSize);
-
-	//return sf::IntRect((m_tileSetDetails.m_margin + ((m_tileSetDetails.m_spacing + tileSize) * row)),
-	//	(m_tileSetDetails.m_margin + ((m_tileSetDetails.m_spacing + tileSize) * col)), tileSize, tileSize);
 }
 
 sf::IntRect TileSheet::getTileLocationByPosition(const sf::IntRect & rect) const

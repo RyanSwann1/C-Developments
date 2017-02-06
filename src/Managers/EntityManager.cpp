@@ -85,17 +85,6 @@ Entity * EntityManager::getEntity(const EntityType type) const
 	return nullptr;
 }
 
-//void EntityManager::addEntity(const std::string& name)
-//{
-//	Entity* const entity = m_entityFactory->createEntity(name);
-//	if (entity)
-//	{
-//		entity->setID(m_entityCount);
-//		m_entities.emplace_back(entity);
-//		++m_entityCount;
-//	}
-//}
-
 void EntityManager::update(const float deltaTime)
 {
 	for (auto &i : m_entities)
@@ -163,20 +152,4 @@ bool EntityManager::removeActiveEntity(const int ID)
 	}
 }
 
-//void EntityManager::loadInEntityDetails(const std::string & fileName)
-//{
-//	std::ifstream file(fileName);
-//	assert(file.is_open());
-//
-//	std::string line;
-//	while (std::getline(file, line))
-//	{
-//		std::stringstream keyStream(line);
-//		std::string type;
-//		keyStream >> type;
-//
-//
-//
-//		if(type == )
-//	}
-//}
+
