@@ -1,9 +1,9 @@
-#include "Animations\Animation.h"
-#include "Sprite\TileSheet.h"
-#include "Managers\TileSheetManager.h"
-#include "Locators\TileSheetManagerLocator.h"
+#include "Animations/Animation.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TileSheetManager.h"
+#include "Locators/TileSheetManagerLocator.h"
 #include <assert.h>
-#include "Animations\AnimationDetails.h"
+#include "Animations/AnimationDetails.h"
 
 Animation::Animation(const AnimationDetails & details)
 	: m_name(details.m_name),
@@ -23,47 +23,6 @@ Animation::Animation(const AnimationDetails & details)
 	m_isPlaying(false)
 {}
 
-//TileSheetManager& m_tileSheetManager;
-//const std::string m_name;
-//const int m_startRow;
-//const int m_endRow;
-//const int m_column;
-//const float m_frameTime;
-//const bool m_repeatable;
-//const sf::Vector2i m_frameSize;
-//const std::string m_tileSheetName;
-//
-//float m_elaspedTime;
-//int m_currentRow;
-//bool m_isFinished;
-//bool m_isFlipped;
-//sf::Sprite m_sprite;
-//const bool m_reversible;
-//bool m_reverse; //Reverse the animation
-//bool m_active;
-
-//Animation::Animation(TileSheetManager & tileSheetManager, const std::string& name, const std::string & tileSheetName, const int startRow,
-//	const int endRow, const int column, const float frameTime, const int repeatable, const sf::Vector2i & frameSize, const bool reversible)
-//	: m_tileSheetManager(tileSheetManager),
-//	m_name(name),
-//	m_startRow(startRow),
-//	m_endRow(endRow),
-//	m_column(column),
-//	m_frameTime(frameTime),
-//	m_repeatable(static_cast<bool>(repeatable)),
-//	m_frameSize(frameSize),
-//	m_tileSheetName(tileSheetName),
-//	m_elaspedTime(0),
-//	m_currentRow(startRow),
-//	m_isFinished(false),
-//	m_isFlipped(false),
-//	m_reversible(reversible),
-//	m_reverse(false),
-//	m_active(false)
-//{
-//	m_sprite.setTexture(*m_tileSheetManager.getTileSheet(m_tileSheetName).getTexture());
-//}
-
 sf::IntRect Animation::getDrawLocation() const
 {
 	return TileSheetManagerLocator::getTileSheetManager().getTileSheet(m_tileSheetName).getTileLocationByPosition(sf::IntRect(
@@ -78,7 +37,6 @@ sf::Vector2f Animation::getPosition(const sf::Vector2f & newPos) const
 	{
 		const int tileSize = TileSheetManagerLocator::getTileSheetManager().getTileSheet(m_tileSheetName).getDetails().m_tileSize;
 		return sf::Vector2f(newPos.x, newPos.y - tileSize);
-		//m_sprite.setPosition(sf::Vector2f(newPos.x, newPos.y - tileSize));
 	}
 	else
 	{
@@ -160,30 +118,3 @@ void Animation::update(const float deltaTime)
 	}
 }
 
-//void Animation::draw(sf::RenderWindow & window)
-//{
-//	//if (m_tileFlipped)
-//	//{
-//	//	m_spriteSheet.setTextureRect(sf::IntRect(drawLocation.x * tileSize, drawLocation.y * tileSize, tileSize, tileSize));
-//	//}
-//	//else
-//	//{
-//	//	m_spriteSheet.setTextureRect(sf::IntRect(drawLocation.x * tileSize, drawLocation.y * tileSize, -tileSize, tileSize));
-//	//}
-//
-//	sf::IntRect rect = m_tileSheetManager.getTileSheet(m_tileSheetName).getTileLocationByPosition(
-//		sf::IntRect(m_currentRow, m_column, m_frameSize.x, m_frameSize.y));
-//
-//	if (m_isFlipped)
-//	{
-//		//rect.width = -1.0f;
-//		
-//		//rect.width - 1.0f;
-//		//rect.height - 1.0f;
-//		//m_sprite.setScale(sf::Vector2f(-16, 0));
-//	}
-//	m_sprite.setTextureRect(rect);
-//
-//
-//	window.draw(m_sprite);
-//}

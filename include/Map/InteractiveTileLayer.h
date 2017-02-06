@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Map\Tile.h"
-#include <SFML\Graphics.hpp>
+#include "Map/Tile.h"
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 enum class TileType;

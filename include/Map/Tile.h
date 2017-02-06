@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Map\TileInfo.h"
+#include "Map/TileInfo.h"
 
 struct Tile
 {

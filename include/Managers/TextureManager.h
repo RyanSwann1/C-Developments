@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Managers\ResourceManager.h"
-#include "Locators\TextureManagerLocator.h"
-#include <SFML\Graphics.hpp>
+#include "Managers/ResourceManager.h"
+#include "Locators/TextureManagerLocator.h"
+#include <SFML/Graphics.hpp>
 
 class TextureManager : public ResourceManager<sf::Texture>
 {

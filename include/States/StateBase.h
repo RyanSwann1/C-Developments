@@ -1,8 +1,8 @@
 #pragma once
 
 #include "StateType.h"
-#include "Managers\StateManager.h"
-#include <SFML\Graphics.hpp>
+#include "Managers/StateManager.h"
+#include <SFML/Graphics.hpp>
 
 class StateBase
 {

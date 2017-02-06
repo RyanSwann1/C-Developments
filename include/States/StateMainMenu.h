@@ -1,6 +1,6 @@
 #pragma once
 
-#include "States\StateBase.h"
+#include "States/StateBase.h"
 
 class StateMainMenu : public StateBase
 {

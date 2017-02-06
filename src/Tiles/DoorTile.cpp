@@ -1,10 +1,10 @@
-#include "Tiles\InteractiveTile.h"
-#include "..\..\include\Tiles\DoorTile.h"
+#include "Tiles/InteractiveTile.h"
+#include "Tiles/DoorTile.h"
 #include "Direction.h"
-#include "Managers\GameManager.h"
-#include "Entities\Player.h"
-#include "Managers\EntityManager.h"
-#include "Tiles\LockTile.h"
+#include "Managers/GameManager.h"
+#include "Entities/Player.h"
+#include "Managers/EntityManager.h"
+#include "Tiles/LockTile.h"
 #include <iostream>
 
 DoorTile::DoorTile(InteractiveTileLayer & interactiveTileLayer, const std::string & name, const sf::Vector2f & pos, const int ID, const TileType type)

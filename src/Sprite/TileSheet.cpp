@@ -1,12 +1,12 @@
-#include "Sprite\TileSheet.h"
-#include "Managers\TextureManager.h"
-#include "Locators\TextureManagerLocator.h"
-#include "Map\WorldMap.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TextureManager.h"
+#include "Locators/TextureManagerLocator.h"
+#include "Map/WorldMap.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <assert.h>
-#include "..\..\include\Sprite\TileSheet.h"
+#include "Sprite/TileSheet.h"
 
 TileSheet::TileSheet(const TileSheetDetails& details)
 	: m_details(details)
@@ -55,9 +55,6 @@ sf::IntRect TileSheet::getTileLocationByID(const int ID) const
 	return sf::IntRect((margin + ((spacing + tileSize) * row)),
 		(margin + ((spacing + tileSize) * col)),
 			tileSize, tileSize);
-
-	//return sf::IntRect((m_tileSetDetails.m_margin + ((m_tileSetDetails.m_spacing + tileSize) * row)),
-	//	(m_tileSetDetails.m_margin + ((m_tileSetDetails.m_spacing + tileSize) * col)), tileSize, tileSize);
 }
 
 sf::IntRect TileSheet::getTileLocationByPosition(const sf::IntRect & rect) const

@@ -1,5 +1,5 @@
 #pragma once
-#include "Tiles\interactiveTile.h"
+#include "Tiles/InteractiveTile.h"
 
 class MovingCoinTile :
 	public InteractiveTile

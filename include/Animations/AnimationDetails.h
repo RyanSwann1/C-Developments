@@ -1,10 +1,8 @@
 #pragma once
 
 #include <string>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
-//Animation(TileSheetManager& tileSheetManager, const std::string& name, const std::string& tileSheetName, const int startRow,
-//const int endRow, const int column, const float frameTime, const int repeatable, const sf::Vector2i& frameSize, const bool reversible);
 struct AnimationDetails
 {
 	AnimationDetails(const std::string& name, const std::string& tileSheet, const int startRow, const int endRow, const int column,

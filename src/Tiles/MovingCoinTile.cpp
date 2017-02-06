@@ -1,6 +1,6 @@
-#include "Tiles\MovingCoinTile.h"
-#include "Entities\Player.h"
-#include "Map\WorldMap.h"
+#include "Tiles/MovingCoinTile.h"
+#include "Entities/Player.h"
+#include "Map/WorldMap.h"
 #include "Utilities.h"
 #include <fstream>
 #include <sstream>

@@ -1,35 +1,14 @@
-#include "Entities\Entity.h"
-#include "Map\WorldMap.h"
+#include "Entities/Entity.h"
+#include "Map/WorldMap.h"
 #include "Utilities.h"
 #include "CollisionElement.h"
-#include "Managers\CollisionManager.h"
-#include "Managers\TileSheetManager.h"
+#include "Managers/CollisionManager.h"
+#include "Managers/TileSheetManager.h"
 #include <math.h>
 #include <fstream>
 #include <sstream>
 #include <assert.h>
 #include <iostream>
-
-//Entity::Entity(SharedContext & sharedContext, const EntityType type, const sf::Vector2f& pos, const int ID, const std::string& name)
-//	: m_sharedContext(sharedContext),
-//	m_animationPlayer(sharedContext),
-//	m_startPosition(pos),
-//	m_position(m_startPosition),
-//	m_onTile(false),
-//	m_gravity(0),
-//	m_ID(ID),
-//	m_collidingOnX(false),
-//	m_collidingOnY(false),
-//	m_type(type),
-//	m_name(name),
-//	m_AABB()
-//{
-//	m_maxVelocity = sf::Vector2f(60, 10000);
-//	m_friction.x = 0.05f;
-//	m_gravity = 0.4f;
-//
-//	loadInEntityDetails();
-//}
 
 Entity::Entity(GameManager & gameManager, WorldMap & worldMap, EntityManager & entityManager, const sf::Vector2f & pos, const int ID, const std::string & name, const EntityType type)
 	: m_worldMap(worldMap),
@@ -104,24 +83,7 @@ void Entity::handleTileCollisions(const std::vector<CollisionElement*>& collisio
 			m_velocity.y = 0;
 			m_collidingOnY = true;
 		}
-
-		//Assign the reference tile for the entity
-		//if (m_collidingOnY)
-		//{
-		//	//m_collisionBoxes.push_back(CollisionBox(sf::Vector2f(collisionBox.left, collisionBox.top)));
-		//	//const Map& map = *m_sharedContext.m_map;
-		//	const CollidableTileLayer& tileLayer = m_sharedContext.m_worldMap.getCollidableTileLayer();
-		//	const MapDetails mapDetails = m_sharedContext.m_worldMap.getMapDetails();
-		//	const CollidableTile* const tile = tileLayer.getTile(i.m_collisionBox.left / mapDetails.m_tileSize, i.m_collisionBox.top / mapDetails.m_tileSize, mapDetails.m_mapSize);
-		//	if (tile)
-		//	{
-		//		//Just use collidable tile as interactive tile
-		//		//Mark as collidable within the tiled application
-		//		m_referenceTile = tile;
-		//	}
-		//}
 	}
-	//(m_collidingOnY ? m_onTile = true : m_onTile = false);
 	if (m_collidingOnY)
 	{
 		m_onTile = true;
@@ -137,7 +99,6 @@ void Entity::draw(sf::RenderWindow & window)
 	sf::RectangleShape shape(sf::Vector2f(16, 16));
 	shape.setPosition(m_position);
 	shape.setFillColor(sf::Color::Green);
-	//awindow.draw(shape);
 	m_animationPlayer.draw(window);
 }
 
@@ -148,11 +109,6 @@ void Entity::update(const float deltaTime)
 
 	const sf::Vector2f deltaPos = m_velocity * deltaTime;
 	move(deltaPos.x, deltaPos.y);
-
-	//if (m_onTile)
-	//{
-	//	setVelocity(getVelocity().x, 0);
-	//}
 
 	m_collidingOnX = false;
 	m_collidingOnY = false;
@@ -231,17 +187,6 @@ void Entity::move(const float x, const float y)
 {
 	m_oldPosition = m_position;
 	m_position += sf::Vector2f(x, y);
-
-	//Keep position within bounds of map
-	//const sf::Vector2i& mapSize = m_sharedContext.m_worldMap.getMapSize();
-	//if (m_position.x < 0)
-	//{
-	//	m_position.x = 0;
-	//}
-	//else if (m_position.x > mapSize.x)
-	//{
-	//	m_position.x = mapSize.x;
-	//}
 }
 
 void Entity::applyFriction()
@@ -258,39 +203,6 @@ void Entity::applyFriction()
 		}
 	}
 }
-
-//void Entity::setVelocity(const float x, const float y)
-//{
-//	if (std::abs(m_velocity.x) > m_maxVelocity.x || std::abs(m_velocity.y) > m_maxVelocity.y)
-//	{
-//		return;
-//	}
-//
-//	if (std::abs(x) > 0)
-//	{
-//		m_velocity.x = x;
-//		//if (x > 0)
-//		//{
-//		//	
-//		//}
-//		//else
-//		//{
-//		//	m_velocity.x = -x;
-//		//}
-//	}
-//	
-//	if (std::abs(y) > 0)
-//	{
-//		if (y > 0)
-//		{
-//			m_velocity.y = y;
-//		}
-//		else
-//		{
-//			m_velocity.y = -y;
-//		}
-//	}
-//}
 
 void Entity::applyGravity()
 {

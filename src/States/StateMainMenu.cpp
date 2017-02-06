@@ -1,4 +1,4 @@
-#include "States\StateMainMenu.h"
+#include "States/StateMainMenu.h"
 #include <iostream>
 
 StateMainMenu::StateMainMenu(StateManager& stateManager, const StateType type)

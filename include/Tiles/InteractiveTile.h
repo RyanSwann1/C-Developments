@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Map\InteractiveTileLayer.h"
-#include "Animations\AnimationPlayer.h"
-#include "Tiles\TileType.h"
+#include "Map/InteractiveTileLayer.h"
+#include "Animations/AnimationPlayer.h"
+#include "Tiles/TileType.h"
 #include "Timer.h"
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class Player;
 class InteractiveTile
@@ -47,6 +47,4 @@ private:
 	float m_movementSpeed;
 	sf::RectangleShape m_shape;
 	sf::Vector2f m_position;
-
-	//void loadInDetails();
 };

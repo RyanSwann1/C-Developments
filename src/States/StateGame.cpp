@@ -1,7 +1,7 @@
-#include "States\StateGame.h"
-#include "Managers\StateManager.h"
-#include "Locators\TextureManagerLocator.h"
-#include "Locators\TileSheetManagerLocator.h"
+#include "States/StateGame.h"
+#include "Managers/StateManager.h"
+#include "Locators/TextureManagerLocator.h"
+#include "Locators/TileSheetManagerLocator.h"
 
 StateGame::StateGame(StateManager& stateManager, const StateType type)
 	: StateBase(stateManager, type),

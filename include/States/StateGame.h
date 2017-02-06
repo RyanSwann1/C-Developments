@@ -1,10 +1,10 @@
 #pragma once
 
-#include "States\StateBase.h"
-#include "Managers\GameManager.h"
-#include "Map\WorldMap.h"
-#include "Managers\EntityManager.h"
-#include "Managers\TileSheetManager.h"
+#include "States/StateBase.h"
+#include "Managers/GameManager.h"
+#include "Map/WorldMap.h"
+#include "Managers/EntityManager.h"
+#include "Managers/TileSheetManager.h"
 
 class StateGame : public StateBase
 {

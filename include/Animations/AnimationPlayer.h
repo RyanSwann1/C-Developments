@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Direction.h"
-#include "Animations\Animation.h"
-#include "Managers\TileSheetManager.h"
-#include <SFML\Graphics.hpp>
+#include "Animations/Animation.h"
+#include "Managers/TileSheetManager.h"
+#include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <vector> 
 
@@ -12,9 +12,6 @@ class AnimationPlayer
 public:
 	AnimationPlayer(const std::string& ownerName);
 	~AnimationPlayer();
-
-	//void setAnimationType(const std::string& name, const Direction dir = Direction::None);
-	//void setAnimationType(const std::string& name, const Direction dir, const sf::Vector2f& pos);
 
 	const std::string& getCurrentAnimationName() const;
 

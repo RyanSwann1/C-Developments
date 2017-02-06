@@ -1,17 +1,16 @@
 #pragma once
 
-#include "Managers\TextureManager.h"
-#include "Map\TileSetDetails.h"
-#include "Sprite\TileSheet.h"
-#include "Managers\TileSheetManager.h"
-#include "Locators\TileSheetManagerLocator.h"
-#include <SFML\Graphics.hpp>
+#include "Managers/TextureManager.h"
+#include "Map/TileSetDetails.h"
+#include "Sprite/TileSheet.h"
+#include "Managers/TileSheetManager.h"
+#include "Locators/TileSheetManagerLocator.h"
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
 
 struct TileInfo
 {
-	//Constructor
 	TileInfo(const std::string& tileSheetName, const int tileID, const sf::Vector2i& position)
 		: m_tileSheetManager(TileSheetManagerLocator::getTileSheetManager()),
 		m_position(position),
@@ -25,7 +24,6 @@ struct TileInfo
 		m_sprite.setPosition(sf::Vector2f(position.x * tileSize, position.y * tileSize));
 	}
 
-	//Copy Constructor - Doesnt use constructors innards
 	TileInfo(const TileInfo& orig)
 		: m_position(orig.m_position),
 		m_sprite(orig.m_sprite),
@@ -36,7 +34,6 @@ struct TileInfo
 		m_sprite.setTexture(*m_tileSheetManager.getTileSheet(m_tileSheetName).getTexture());
 	}
 
-	//Destructor
 	~TileInfo()
 	{
 		m_tileSheetManager.releaseTileSheet(m_tileSheetName);

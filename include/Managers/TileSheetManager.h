@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Sprite\TileSheet.h"
+#include "Sprite/TileSheet.h"
 #include <string>
 #include <unordered_map>
 

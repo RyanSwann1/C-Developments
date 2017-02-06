@@ -1,9 +1,10 @@
 #pragma once
 
-#include "States\StateType.h"
+#include "States/StateType.h"
 #include "SharedContext.h"
+#include "Utilities.h"
 #include <vector>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 class StateBase;
 class StateManager

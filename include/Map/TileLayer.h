@@ -2,10 +2,10 @@
 
 #include "SharedContext.h"
 #include "Tile.h"
-#include "Sprite\TileSheetDetails.h"
+#include "Sprite/TileSheetDetails.h"
 #include <vector>
 #include <string>
-#include <SFML\Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using TileMapData = std::vector<std::vector<int>>;
 
@@ -26,6 +26,5 @@ public:
 private:
 
 	const std::vector<TileInfo> m_tileMap;
-	//const std::vector<std::pair<int, TileInfo>> m_tileMap;
 	const std::string m_name;
 };

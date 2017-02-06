@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Managers\EventManager.h"
-#include <SFML\Graphics.hpp>
-#include <SFML\Window.hpp>
+#include "Managers/EventManager.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <string>
 
 struct StateManager;

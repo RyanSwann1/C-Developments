@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Animations\AnimationPlayer.h"
-#include "Managers\GameManager.h"
+#include "Animations/AnimationPlayer.h"
+#include "Managers/GameManager.h"
 #include "Direction.h"
-#include "Entities\EntityType.h"
-#include "Map\WorldMap.h"
-#include <SFML\Graphics.hpp>
+#include "Entities/EntityType.h"
+#include "Map/WorldMap.h"
+#include <SFML/Graphics.hpp>
 
 struct CollisionElement;
 class Entity

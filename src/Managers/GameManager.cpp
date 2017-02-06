@@ -1,7 +1,7 @@
-#include "Managers\GameManager.h"
-#include "Tiles\DoorTile.h"
-#include "Entities\Player.h"
-#include "Parser\LevelParser.h"
+#include "Managers/GameManager.h"
+#include "Tiles/DoorTile.h"
+#include "Entities/Player.h"
+#include "Parser/LevelParser.h"
 #include "Utilities.h"
 #include <sstream>
 #include <fstream>
@@ -39,7 +39,6 @@ void GameManager::winGame()
 	{
 		m_stateManager.switchTo(StateType::Win);
 		m_stateManager.removeState(StateType::Game);
-		//http://moonstoneequation.com/a-warning-to-others/
 	}
 }
 
