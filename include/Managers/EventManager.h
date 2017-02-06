@@ -4,6 +4,7 @@
 #include "Events/Binding.h"
 #include "Managers/StateManager.h"
 #include "States/StateType.h"
+#include "Utilities.h"
 #include <vector>
 #include <algorithm>
 #include <functional>
@@ -37,7 +38,7 @@ public:
 
 private:
 	std::vector<Binding> m_bindings;
-	std::unordered_map<KeyBindingName, CallBack> m_callBacks;
+        std::unordered_map<KeyBindingName, CallBack, Utilities::EnumClassHash> m_callBacks;
 	const StateManager& m_stateManager;
 	
 	bool registerBinding(const int name, const int keyCode, const int eventType);
